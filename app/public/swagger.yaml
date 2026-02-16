@@ -1,0 +1,311 @@
+openapi: 3.0.3
+info:
+  title: ParishHub API
+  description: API for managing invoices, Deaths, clients, and items
+  version: 1.0.0
+  contact:
+    name: API Support
+servers:
+  - url: /api
+    description: API Server
+tags:
+  - name: Authentication
+    description: User authentication endpoints
+  - name: Deaths
+    description: Death management
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: Sanctum
+  schemas:
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          example: The given data was invalid.
+        errors:
+          type: object
+    Death:
+      allOf:
+      - type: object
+        properties:
+          id:
+            type: string
+            example: "a51fa1fe.."
+      - $ref: '#/components/schemas/DeathInput'
+    DeathInput:
+      type: object
+      required:
+        - full_name
+        - reg_no
+      properties:
+        full_name:
+          type: string
+          example: John
+        parent:
+          type: string
+          example: Mathew
+        address:
+          type: string
+          example: 123 Main Street
+        spouse:
+          type: string
+          format: email
+          example: contact@acme.com
+        date_of_death:
+          type: string
+          format: date
+          example: 2026-01-16
+        cause_of_death:
+          type: string
+          example: Natural causes
+        place_of_burial:
+          type: string
+          example: fortkochi
+        date_of_burial:
+          type: string
+          format: date
+          example: 2026-01-20
+        reg_no:
+          type: string
+          example: '233'
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: John Doe
+        email:
+          type: string
+          format: email
+          example: user@example.com
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+paths:
+  /login:
+    post:
+      tags:
+        - Authentication
+      summary: Login user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: user@example.com
+                password:
+                  type: string
+                  format: password
+                  example: password123
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    $ref: '#/components/schemas/User'
+                  token:
+                    type: string
+                    example: 1|abcdef123456...
+        '401':
+          description: Invalid credentials
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Invalid credentials
+
+  /logout:
+    post:
+      tags:
+        - Authentication
+      summary: Logout user
+      security:
+        - bearerAuth: []
+      responses:
+        '204':
+          description: Logout successful
+        '401':
+          description: Unauthenticated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated
+
+  /user:
+    get:
+      tags:
+        - User
+      summary: Get authenticated user
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: User retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          description: Unauthenticated
+
+  /deaths:
+    get:
+      tags:
+        - Deaths
+      summary: List all deaths
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: List of deaths
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Death'
+    post:
+      tags:
+        - Deaths
+      summary: Create a new death
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeathInput'
+      responses:
+        '201':
+          description: Death created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  DeathID:
+                    type: string
+                    example: a51fa1fe-c6fa-410d-a95a-0d6d12e6c264
+        '422':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /deaths/{id}:
+    get:
+      tags:
+        - Deaths
+      summary: Get death by ID
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Death ID
+      responses:
+        '200':
+          description: Death details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Death'
+        '404':
+          description: Death not found
+    put:
+      tags:
+        - Deaths
+      summary: Update death
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Death ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeathInput'
+      responses:
+        '200':
+          description: Death updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  DeathID:
+                    type: integer
+                    example: 1
+        '404':
+          description: Death not found
+        '422':
+          description: Validation error
+    delete:
+      tags:
+        - Deaths
+      summary: Delete death
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Death ID
+      responses:
+        '200':
+          description: Death deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  DeathID:
+                    type: string
+                    example: "a51fa1fe-c6fa-410d-a95a-0d6d12e6c264"
+        '404':
+          description: Death not found
+
