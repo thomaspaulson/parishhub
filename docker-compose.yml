@@ -1,0 +1,38 @@
+###############################################################################
+#                          Generated on phpdocker.io                          #
+###############################################################################
+
+services:
+    redis:
+        image: 'redis:alpine'
+
+    mysql:
+        image: 'mysql:8.0'
+        working_dir: /application
+        volumes:
+            - '.:/application'
+        environment:
+            - MYSQL_ROOT_PASSWORD=toor
+            - MYSQL_DATABASE=parishmanager
+            - MYSQL_USER=parishmanager
+            - MYSQL_PASSWORD=secret
+        ports:
+            - '52002:3306'
+
+    webserver:
+        image: 'nginx:alpine'
+        working_dir: /application
+        volumes:
+            - './app:/application'
+            - './phpdocker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf'
+        ports:
+            - '52000:80'
+
+    php-fpm:
+        build: phpdocker/php-fpm
+        user: "${UID:-1000}:${GID:-1000}"
+        working_dir: /application
+        volumes:
+            - './app:/application'
+            - './phpdocker/php-fpm/php-ini-overrides.ini:/etc/php/8.5/fpm/conf.d/99-overrides.ini'
+            - './phpdocker/php-fpm/php-ini-overrides.ini:/etc/php/8.5/cli/conf.d/99-overrides.ini'
