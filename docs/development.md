@@ -1,6 +1,16 @@
 # Development notes
 
 
+##  running command inside container
+
+```
+docker compose run --rm \
+    -w /application \
+    php-fpm \
+    bash
+```
+
+
 ## to install sanctum
 
 php artisan install:api

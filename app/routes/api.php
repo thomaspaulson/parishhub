@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\BirthController;
 use App\Http\Controllers\Api\DeathController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
@@ -11,3 +12,4 @@ Route::prefix('auth')->group(function () {
 });
 
 Route::apiResource('deaths', DeathController::class);
+Route::apiResource('births', BirthController::class);
