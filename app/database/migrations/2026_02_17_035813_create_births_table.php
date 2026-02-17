@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('father_name');
             $table->string('mother_name');
             $table->date('date_of_birth');
-            $table->date('baptized_on');
-            $table->string('baptized_at');
+            $table->date('date_of_baptism');
+            $table->string('place_of_baptism');
             $table->string('celebrant');
             $table->string('god_parents');
             $table->string('parish');
