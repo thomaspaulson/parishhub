@@ -7,6 +7,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
  * @property int $id
+ * @property string $date
  * @property string $full_name
  * @property string $father_name
  * @property string $mother_name
@@ -16,6 +17,9 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * @property string $celebrant
  * @property string $god_parents
  * @property string $parish
+ * @property string $reg_no
+ * @property string|null $page_no
+ * @property string|null $book_no
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  */
