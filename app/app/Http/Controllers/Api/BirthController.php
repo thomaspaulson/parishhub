@@ -18,7 +18,7 @@ class BirthController extends Controller
         $perPage = max(1, min($perPage, 100));
 
         $births = Birth::query()
-            ->orderByDesc('id')
+            ->orderByDesc('created_at')
             ->paginate($perPage);
 
         return BirthResource::collection($births)->response();

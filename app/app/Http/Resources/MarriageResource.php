@@ -6,24 +6,24 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @property int $id
+ * @property string $id
  * @property string $date
- * @property string $full_name
- * @property string $father_name
- * @property string $mother_name
- * @property string $date_of_birth
- * @property string $baptized_on
- * @property string $baptized_at
+ * @property string $bride_full_name
+ * @property string $bride_parents
+ * @property string $groom_full_name
+ * @property string $groom_parents
  * @property string $celebrant
- * @property string $god_parents
- * @property string $parish
+ * @property string $church
+ * @property string $married_on
+ * @property string|null $witness1
+ * @property string|null $witness2
  * @property string $reg_no
  * @property string|null $page_no
  * @property string|null $book_no
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  */
-class BirthResource extends JsonResource
+class MarriageResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -35,15 +35,15 @@ class BirthResource extends JsonResource
         return [
             'id' => $this->id,
             'date' => $this->date,
-            'full_name' => $this->full_name,
-            'father_name' => $this->father_name,
-            'mother_name' => $this->mother_name,
-            'date_of_birth' => $this->date_of_birth,
-            'date_of_baptism' => $this->date_of_baptism,
-            'place_of_baptism' => $this->place_of_baptism,
+            'bride_full_name' => $this->bride_full_name,
+            'bride_parents' => $this->bride_parents,
+            'groom_full_name' => $this->groom_full_name,
+            'groom_parents' => $this->groom_parents,
             'celebrant' => $this->celebrant,
-            'god_parents' => $this->god_parents,
-            'parish' => $this->parish,
+            'church' => $this->church,
+            'married_on' => $this->married_on,
+            'witness1' => $this->witness1,
+            'witness2' => $this->witness2,
             'reg_no' => $this->reg_no,
             'page_no' => $this->page_no,
             'book_no' => $this->book_no,

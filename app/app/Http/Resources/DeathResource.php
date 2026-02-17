@@ -42,8 +42,8 @@ class DeathResource extends JsonResource
             'reg_no' => $this->reg_no,
             'page_no' => $this->page_no,
             'book_no' => $this->book_no,
-            'created_at' => optional($this->created_at)->toISOString(),
-            'updated_at' => optional($this->updated_at)->toISOString(),
+            'created_at' => optional($this->created_at)->toDateTimeString(),
+            'updated_at' => optional($this->updated_at)->toDateTimeString(),
         ];
     }
 }

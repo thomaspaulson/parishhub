@@ -18,7 +18,7 @@ class DeathController extends Controller
         $perPage = max(1, min($perPage, 100));
 
         $deaths = Death::query()
-            ->orderByDesc('id')
+            ->orderByDesc('created_at')
             ->paginate($perPage);
 
         return DeathResource::collection($deaths)->response();
