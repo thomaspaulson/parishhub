@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: ParishHub API
-  description: API for managing invoices, Deaths, clients, and items
+  description: API for managing parish births, deaths, and marriages
   version: 1.0.0
   contact:
     name: API Support
@@ -13,6 +13,10 @@ tags:
     description: User authentication endpoints
   - name: Deaths
     description: Death management
+  - name: Births
+    description: Birth management
+  - name: Marriages
+    description: Marriage management
 
 components:
   securitySchemes:
@@ -29,20 +33,162 @@ components:
           example: The given data was invalid.
         errors:
           type: object
+    PaginationLinks:
+      type: object
+      properties:
+        first:
+          type: string
+          nullable: true
+          example: /api/births?page=1
+        last:
+          type: string
+          nullable: true
+          example: /api/births?page=3
+        prev:
+          type: string
+          nullable: true
+          example: /api/births?page=1
+        next:
+          type: string
+          nullable: true
+          example: /api/births?page=2
+    PaginationMeta:
+      type: object
+      properties:
+        current_page:
+          type: integer
+          example: 1
+        from:
+          type: integer
+          nullable: true
+          example: 1
+        last_page:
+          type: integer
+          example: 3
+        path:
+          type: string
+          example: /api/births
+        per_page:
+          type: integer
+          example: 15
+        to:
+          type: integer
+          nullable: true
+          example: 15
+        total:
+          type: integer
+          example: 45
+    Birth:
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+        - $ref: '#/components/schemas/BirthInput'
+        - type: object
+          properties:
+            created_at:
+              type: string
+              format: date-time
+              example: 2026-02-17 10:30:00
+            updated_at:
+              type: string
+              format: date-time
+              example: 2026-02-17 10:30:00
+    BirthInput:
+      type: object
+      required:
+        - date
+        - full_name
+        - father_name
+        - mother_name
+        - date_of_birth
+        - date_of_baptism
+        - place_of_baptism
+        - celebrant
+        - god_parents
+        - parish
+        - reg_no
+      properties:
+        date:
+          type: string
+          format: date
+          example: 2026-02-17
+        full_name:
+          type: string
+          example: Maria Joseph
+        father_name:
+          type: string
+          example: Mathew Joseph
+        mother_name:
+          type: string
+          example: Anna Joseph
+        date_of_birth:
+          type: string
+          format: date
+          example: 2026-02-10
+        date_of_baptism:
+          type: string
+          format: date
+          example: 2026-02-12
+        place_of_baptism:
+          type: string
+          example: St. Mary's Church
+        celebrant:
+          type: string
+          example: Fr. Thomas
+        god_parents:
+          type: string
+          example: John and Mary
+        parish:
+          type: string
+          example: Fort Kochi
+        reg_no:
+          type: string
+          example: 'B-233'
+        page_no:
+          type: string
+          nullable: true
+          example: '12'
+        book_no:
+          type: string
+          nullable: true
+          example: '3'
     Death:
       allOf:
       - type: object
         properties:
           id:
-            type: string
-            example: "a51fa1fe.."
+            type: integer
+            example: 1
       - $ref: '#/components/schemas/DeathInput'
+      - type: object
+        properties:
+          created_at:
+            type: string
+            format: date-time
+            example: 2026-02-17 10:30:00
+          updated_at:
+            type: string
+            format: date-time
+            example: 2026-02-17 10:30:00
     DeathInput:
       type: object
       required:
+        - date
         - full_name
+        - parent
+        - address
+        - date_of_death
+        - place_of_burial
+        - date_of_burial
         - reg_no
       properties:
+        date:
+          type: string
+          format: date
+          example: 2026-02-17
         full_name:
           type: string
           example: John
@@ -54,14 +200,15 @@ components:
           example: 123 Main Street
         spouse:
           type: string
-          format: email
-          example: contact@acme.com
+          nullable: true
+          example: Mary
         date_of_death:
           type: string
           format: date
           example: 2026-01-16
         cause_of_death:
           type: string
+          nullable: true
           example: Natural causes
         place_of_burial:
           type: string
@@ -73,6 +220,123 @@ components:
         reg_no:
           type: string
           example: '233'
+        page_no:
+          type: string
+          nullable: true
+          example: '12'
+        book_no:
+          type: string
+          nullable: true
+          example: '3'
+    Marriage:
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+        - $ref: '#/components/schemas/MarriageInput'
+        - type: object
+          properties:
+            created_at:
+              type: string
+              format: date-time
+              example: 2026-02-17 10:30:00
+            updated_at:
+              type: string
+              format: date-time
+              example: 2026-02-17 10:30:00
+    MarriageInput:
+      type: object
+      required:
+        - date
+        - bride_full_name
+        - bride_parents
+        - groom_full_name
+        - groom_parents
+        - celebrant
+        - church
+        - married_on
+        - reg_no
+      properties:
+        date:
+          type: string
+          format: date
+          example: 2026-02-17
+        bride_full_name:
+          type: string
+          example: Maria Joseph
+        bride_parents:
+          type: string
+          example: John and Anna
+        groom_full_name:
+          type: string
+          example: Thomas Joseph
+        groom_parents:
+          type: string
+          example: Mathew and Mary
+        celebrant:
+          type: string
+          example: Fr. Peter
+        church:
+          type: string
+          example: St. Mary's Church
+        married_on:
+          type: string
+          format: date
+          example: 2026-02-16
+        witness1:
+          type: string
+          nullable: true
+          example: Witness One
+        witness2:
+          type: string
+          nullable: true
+          example: Witness Two
+        reg_no:
+          type: string
+          example: 'M-233'
+        page_no:
+          type: string
+          nullable: true
+          example: '12'
+        book_no:
+          type: string
+          nullable: true
+          example: '3'
+    PaginatedBirths:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Birth'
+        links:
+          $ref: '#/components/schemas/PaginationLinks'
+        meta:
+          $ref: '#/components/schemas/PaginationMeta'
+    PaginatedDeaths:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Death'
+        links:
+          $ref: '#/components/schemas/PaginationLinks'
+        meta:
+          $ref: '#/components/schemas/PaginationMeta'
+    PaginatedMarriages:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Marriage'
+        links:
+          $ref: '#/components/schemas/PaginationLinks'
+        meta:
+          $ref: '#/components/schemas/PaginationMeta'
     User:
       type: object
       properties:
@@ -94,7 +358,7 @@ components:
           format: date-time
 
 paths:
-  /login:
+  /auth/login:
     post:
       tags:
         - Authentication
@@ -141,7 +405,7 @@ paths:
                     type: string
                     example: Invalid credentials
 
-  /logout:
+  /auth/logout:
     post:
       tags:
         - Authentication
@@ -162,45 +426,22 @@ paths:
                     type: string
                     example: Unauthenticated
 
-  /user:
-    get:
-      tags:
-        - User
-      summary: Get authenticated user
-      security:
-        - bearerAuth: []
-      responses:
-        '200':
-          description: User retrieved successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
-        '401':
-          description: Unauthenticated
-
   /deaths:
     get:
       tags:
         - Deaths
       summary: List all deaths
-      security:
-        - bearerAuth: []
       responses:
         '200':
           description: List of deaths
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Death'
+                $ref: '#/components/schemas/PaginatedDeaths'
     post:
       tags:
         - Deaths
       summary: Create a new death
-      security:
-        - bearerAuth: []
       requestBody:
         required: true
         content:
@@ -213,11 +454,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  DeathID:
-                    type: string
-                    example: a51fa1fe-c6fa-410d-a95a-0d6d12e6c264
+                $ref: '#/components/schemas/Death'
         '422':
           description: Validation error
           content:
@@ -225,19 +462,17 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
-  /deaths/{id}:
+  /deaths/{death}:
     get:
       tags:
         - Deaths
       summary: Get death by ID
-      security:
-        - bearerAuth: []
       parameters:
-        - name: id
+        - name: death
           in: path
           required: true
           schema:
-            type: string
+            type: integer
           description: Death ID
       responses:
         '200':
@@ -252,10 +487,8 @@ paths:
       tags:
         - Deaths
       summary: Update death
-      security:
-        - bearerAuth: []
       parameters:
-        - name: id
+        - name: death
           in: path
           required: true
           schema:
@@ -273,11 +506,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  DeathID:
-                    type: integer
-                    example: 1
+                $ref: '#/components/schemas/Death'
         '404':
           description: Death not found
         '422':
@@ -286,26 +515,228 @@ paths:
       tags:
         - Deaths
       summary: Delete death
-      security:
-        - bearerAuth: []
       parameters:
-        - name: id
+        - name: death
           in: path
           required: true
           schema:
-            type: string
+            type: integer
           description: Death ID
       responses:
-        '200':
+        '204':
           description: Death deleted successfully
+        '404':
+          description: Death not found
+
+  /births:
+    get:
+      tags:
+        - Births
+      summary: List all births
+      responses:
+        '200':
+          description: List of births
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  DeathID:
-                    type: string
-                    example: "a51fa1fe-c6fa-410d-a95a-0d6d12e6c264"
+                $ref: '#/components/schemas/PaginatedBirths'
+    post:
+      tags:
+        - Births
+      summary: Create a new birth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BirthInput'
+      responses:
+        '201':
+          description: Birth created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Birth'
+        '422':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /births/{birth}:
+    get:
+      tags:
+        - Births
+      summary: Get birth by ID
+      parameters:
+        - name: birth
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Birth ID
+      responses:
+        '200':
+          description: Birth details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Birth'
         '404':
-          description: Death not found
+          description: Birth not found
+    put:
+      tags:
+        - Births
+      summary: Update birth
+      parameters:
+        - name: birth
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Birth ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BirthInput'
+      responses:
+        '200':
+          description: Birth updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Birth'
+        '404':
+          description: Birth not found
+        '422':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      tags:
+        - Births
+      summary: Delete birth
+      parameters:
+        - name: birth
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Birth ID
+      responses:
+        '204':
+          description: Birth deleted successfully
+        '404':
+          description: Birth not found
+
+  /marriages:
+    get:
+      tags:
+        - Marriages
+      summary: List all marriages
+      responses:
+        '200':
+          description: List of marriages
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedMarriages'
+    post:
+      tags:
+        - Marriages
+      summary: Create a new marriage
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MarriageInput'
+      responses:
+        '201':
+          description: Marriage created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Marriage'
+        '422':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /marriages/{marriage}:
+    get:
+      tags:
+        - Marriages
+      summary: Get marriage by ID
+      parameters:
+        - name: marriage
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Marriage ID
+      responses:
+        '200':
+          description: Marriage details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Marriage'
+        '404':
+          description: Marriage not found
+    put:
+      tags:
+        - Marriages
+      summary: Update marriage
+      parameters:
+        - name: marriage
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Marriage ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MarriageInput'
+      responses:
+        '200':
+          description: Marriage updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Marriage'
+        '404':
+          description: Marriage not found
+        '422':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      tags:
+        - Marriages
+      summary: Delete marriage
+      parameters:
+        - name: marriage
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Marriage ID
+      responses:
+        '204':
+          description: Marriage deleted successfully
+        '404':
+          description: Marriage not found
 
