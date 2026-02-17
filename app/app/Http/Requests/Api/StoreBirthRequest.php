@@ -25,8 +25,8 @@ class StoreBirthRequest extends FormRequest
             'god_parents' => ['required', 'string', 'max:255'],
             'parish' => ['required', 'string', 'max:255'],
             'reg_no' => ['required', 'string', 'max:20'],
-            'page_no' => ['sometimes', 'string', 'max:20'],
-            'book_no' => ['sometimes', 'string', 'max:20'],
+            'page_no' => ['nullable', 'string', 'max:20'],
+            'book_no' => ['nullable', 'string', 'max:20'],
         ];
     }
 }

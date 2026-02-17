@@ -16,6 +16,7 @@ class Death extends Model
      * @var list<string>
      */
     protected $fillable = [
+        'date',
         'full_name',
         'parent',
         'address',
@@ -25,6 +26,8 @@ class Death extends Model
         'place_of_burial',
         'date_of_burial',
         'reg_no',
+        'page_no',
+        'book_no',
     ];
 
 

@@ -13,16 +13,18 @@ return new class extends Migration
     {
         Schema::create('deaths', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->date('date');
             $table->string('full_name');
-            $table->string('parent')->nullable();
-            $table->string('address')->nullable();
+            $table->string('parent');
+            $table->string('address');
             $table->string('spouse')->nullable();
-            $table->date('date_of_death')->nullable();
+            $table->date('date_of_death');
             $table->string('cause_of_death')->nullable();
-            $table->string('place_of_burial')->nullable();
-            $table->date('date_of_burial')->nullable();
-            // $table->string('place_of_death')->nullable();
+            $table->string('place_of_burial');
+            $table->date('date_of_burial');
             $table->string('reg_no',20);
+            $table->string('page_no',20)->nullable();
+            $table->string('book_no',20)->nullable();
             $table->timestamps();
         });
     }

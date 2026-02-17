@@ -30,6 +30,7 @@ class DeathResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'date' => $this->date,
             'full_name' => $this->full_name,
             'parent' => $this->parent,
             'address' => $this->address,
@@ -39,6 +40,8 @@ class DeathResource extends JsonResource
             'place_of_burial' => $this->place_of_burial,
             'date_of_burial' => $this->date_of_burial,
             'reg_no' => $this->reg_no,
+            'page_no' => $this->page_no,
+            'book_no' => $this->book_no,
             'created_at' => optional($this->created_at)->toISOString(),
             'updated_at' => optional($this->updated_at)->toISOString(),
         ];
