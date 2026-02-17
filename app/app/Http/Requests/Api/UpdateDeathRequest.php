@@ -14,15 +14,18 @@ class UpdateDeathRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'full_name' => ['sometimes', 'string', 'max:255'],
-            'parent' => ['sometimes', 'nullable', 'string', 'max:255'],
-            'address' => ['sometimes', 'nullable', 'string', 'max:255'],
-            'spouse' => ['sometimes', 'nullable', 'string', 'max:255'],
-            'date_of_death' => ['sometimes', 'nullable', 'date', 'date_format:Y-m-d'],
-            'cause_of_death' => ['sometimes', 'nullable', 'string', 'max:255'],
-            'place_of_burial' => ['sometimes', 'nullable', 'string', 'max:255'],
-            'date_of_burial' => ['sometimes', 'nullable', 'date', 'date_format:Y-m-d'],
-            'reg_no' => ['sometimes', 'string', 'max:20'],
+            'date' => ['required', 'date', 'date_format:Y-m-d'],
+            'full_name' => ['required', 'string', 'max:255'],
+            'parent' => ['required', 'string', 'max:255'],
+            'address' => ['required', 'string', 'max:255'],
+            'spouse' => ['nullable', 'string', 'max:255'],
+            'date_of_death' => ['required', 'date', 'date_format:Y-m-d'],
+            'cause_of_death' => ['nullable', 'string', 'max:255'],
+            'place_of_burial' => ['required', 'string', 'max:255'],
+            'date_of_burial' => ['required', 'date', 'date_format:Y-m-d'],
+            'reg_no' => ['required',  'string', 'max:20'],
+            'page_no' => ['nullable', 'string', 'max:20'],
+            'book_no' => ['nullable', 'string', 'max:20'],
         ];
     }
 }

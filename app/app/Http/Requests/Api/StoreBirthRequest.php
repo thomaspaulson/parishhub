@@ -19,14 +19,14 @@ class StoreBirthRequest extends FormRequest
             'father_name' => ['required', 'string', 'max:255'],
             'mother_name' => ['required', 'string', 'max:255'],
             'date_of_birth' => ['required', 'date', 'date_format:Y-m-d'],
-            'baptized_on' => ['required', 'date', 'date_format:Y-m-d'],
-            'baptized_at' => ['required', 'string', 'max:255'],
+            'date_of_baptism' => ['required', 'date', 'date_format:Y-m-d'],
+            'place_of_baptism' => ['required', 'string', 'max:255'],
             'celebrant' => ['required', 'string', 'max:255'],
             'god_parents' => ['required', 'string', 'max:255'],
             'parish' => ['required', 'string', 'max:255'],
             'reg_no' => ['required', 'string', 'max:20'],
-            'page_no' => ['sometimes', 'string', 'max:20'],
-            'book_no' => ['sometimes', 'string', 'max:20'],
+            'page_no' => ['nullable', 'string', 'max:20'],
+            'book_no' => ['nullable', 'string', 'max:20'],
         ];
     }
 }
