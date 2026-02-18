@@ -11,6 +11,7 @@ services:
         working_dir: /application
         volumes:
             - '.:/application'
+            - 'mysql_data:/var/lib/mysql'
         environment:
             - MYSQL_ROOT_PASSWORD=toor
             - MYSQL_DATABASE=parishmanager
@@ -36,3 +37,6 @@ services:
             - './app:/application'
             - './phpdocker/php-fpm/php-ini-overrides.ini:/etc/php/8.5/fpm/conf.d/99-overrides.ini'
             - './phpdocker/php-fpm/php-ini-overrides.ini:/etc/php/8.5/cli/conf.d/99-overrides.ini'
+
+volumes:
+    mysql_data:
