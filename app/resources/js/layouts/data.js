@@ -51,8 +51,8 @@ export const navItems = [
 
 export const adminNavItems = [
     { label: 'Dashboard', to: '/admin' },
-    { label: 'Registries', to: '/admin/registries' },
-    { label: 'Team', to: '/admin/team' },
-    { label: 'Reports', to: '/admin/reports' },
+    { label: 'Deaths', to: '/admin/deaths' },
+    { label: 'Births', to: '/admin/births' },
+    { label: 'Marriages', to: '/admin/marriages' },
     { label: 'Settings', to: '/admin/settings' },
 ];

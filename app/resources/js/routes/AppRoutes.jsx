@@ -2,7 +2,7 @@ import React from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 import { AdminLayout } from '../layouts/AdminLayout';
 import { PublicLayout } from '../layouts/PublicLayout';
-import { AdminDashboardPage } from '../pages/AdminDashboardPage';
+import { DashboardPage } from '../pages/DashboardPage';
 import { AdminRegistriesPage } from '../pages/AdminRegistriesPage';
 import { AdminReportsPage } from '../pages/AdminReportsPage';
 import { AdminSettingsPage } from '../pages/AdminSettingsPage';
@@ -14,6 +14,7 @@ import { NotFoundPage } from '../pages/NotFoundPage';
 import { RecordsPage } from '../pages/RecordsPage';
 import { SettingsPage } from '../pages/SettingsPage';
 import { WorkflowPage } from '../pages/WorkflowPage';
+import DeathRoutes from '../pages/death/routes';
 import { ProtectedRoute } from './ProtectedRoute';
 
 export const appRouter = createBrowserRouter([
@@ -35,7 +36,8 @@ export const appRouter = createBrowserRouter([
                 path: '/admin',
                 element: <AdminLayout />,
                 children: [
-                    { index: true, element: <AdminDashboardPage /> },
+                    { index: true, element: <DashboardPage /> },
+                    { path: 'deaths/*', element: <DeathRoutes /> },
                     { path: 'registries', element: <AdminRegistriesPage /> },
                     { path: 'team', element: <AdminTeamPage /> },
                     { path: 'reports', element: <AdminReportsPage /> },

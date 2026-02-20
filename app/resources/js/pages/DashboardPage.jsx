@@ -1,6 +1,6 @@
 import React from 'react';
 
-export function AdminDashboardPage() {
+export function DashboardPage() {
     return (
         <section className="space-y-6">
             <div className="rounded-3xl border border-slate-200 bg-white p-6">
