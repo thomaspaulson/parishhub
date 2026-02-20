@@ -10,3 +10,5 @@ Route::get('/', function () {
 // Swagger documentation routes
 Route::get('/swagger', [SwaggerController::class, 'index'])->name('swagger.index');
 Route::get('/swagger/spec', [SwaggerController::class, 'spec'])->name('swagger.spec');
+
+Route::view('/{any}', 'welcome')->where('any', '.*');

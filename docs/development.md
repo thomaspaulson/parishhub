@@ -9,7 +9,12 @@ docker compose run --rm \
     php-fpm \
     bash
 ```
-
+```
+docker compose run --rm \
+    -w /application \
+    php-fpm \
+    php artisan migrate
+````
 
 ## to install sanctum
 
@@ -19,3 +24,7 @@ got message `API scaffolding installed. Please add the [Laravel\Sanctum\HasApiTo
 
 ## make migration
 php artisan make:migration create_marriages_table --create=marriages
+
+## setting up user
+
+php artisan db:seed --class=UserSeeder

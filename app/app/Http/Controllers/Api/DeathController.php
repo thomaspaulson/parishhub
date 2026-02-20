@@ -43,7 +43,6 @@ class DeathController extends Controller
     public function update(UpdateDeathRequest $request, Death $death): JsonResponse
     {
         $validated = $request->validated();
-
         $death->fill($validated);
         $death->save();
 
