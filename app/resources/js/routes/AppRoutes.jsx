@@ -15,7 +15,9 @@ import { RecordsPage } from '../pages/RecordsPage';
 import { SettingsPage } from '../pages/SettingsPage';
 import { WorkflowPage } from '../pages/WorkflowPage';
 import DeathRoutes from '../pages/death/routes';
+import BirthRoutes from '../pages/birth/routes';
 import { ProtectedRoute } from './ProtectedRoute';
+
 
 export const appRouter = createBrowserRouter([
     {
@@ -38,6 +40,7 @@ export const appRouter = createBrowserRouter([
                 children: [
                     { index: true, element: <DashboardPage /> },
                     { path: 'deaths/*', element: <DeathRoutes /> },
+                    { path: 'births/*', element: <BirthRoutes /> },
                     { path: 'registries', element: <AdminRegistriesPage /> },
                     { path: 'team', element: <AdminTeamPage /> },
                     { path: 'reports', element: <AdminReportsPage /> },
