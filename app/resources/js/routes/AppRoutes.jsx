@@ -16,6 +16,7 @@ import { SettingsPage } from '../pages/SettingsPage';
 import { WorkflowPage } from '../pages/WorkflowPage';
 import DeathRoutes from '../pages/death/routes';
 import BirthRoutes from '../pages/birth/routes';
+import MarriageRoutes from '../pages/marriage/routes';
 import { ProtectedRoute } from './ProtectedRoute';
 
 
@@ -41,6 +42,7 @@ export const appRouter = createBrowserRouter([
                     { index: true, element: <DashboardPage /> },
                     { path: 'deaths/*', element: <DeathRoutes /> },
                     { path: 'births/*', element: <BirthRoutes /> },
+                    { path: 'marriages/*', element: <MarriageRoutes /> },
                     { path: 'registries', element: <AdminRegistriesPage /> },
                     { path: 'team', element: <AdminTeamPage /> },
                     { path: 'reports', element: <AdminReportsPage /> },

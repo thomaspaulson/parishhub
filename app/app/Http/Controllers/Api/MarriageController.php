@@ -16,10 +16,30 @@ class MarriageController extends Controller
     {
         $perPage = (int) $request->query('per_page', 15);
         $perPage = max(1, min($perPage, 100));
+        $search = trim((string) $request->query('q', ''));
 
         $marriages = Marriage::query()
+            ->when($search !== '', function ($query) use ($search) {
+                $query->where(function ($builder) use ($search) {
+                    $builder
+                        ->where('bride_full_name', 'like', "%{$search}%")
+                        ->orWhere('bride_parents', 'like', "%{$search}%")
+                        ->orWhere('groom_full_name', 'like', "%{$search}%")
+                        ->orWhere('groom_parents', 'like', "%{$search}%")
+                        ->orWhere('celebrant', 'like', "%{$search}%")
+                        ->orWhere('church', 'like', "%{$search}%")
+                        ->orWhere('married_on', 'like', "%{$search}%")
+                        ->orWhere('witness1', 'like', "%{$search}%")
+                        ->orWhere('witness2', 'like', "%{$search}%")
+                        ->orWhere('reg_no', 'like', "%{$search}%")
+                        ->orWhere('page_no', 'like', "%{$search}%")
+                        ->orWhere('book_no', 'like', "%{$search}%")
+                        ->orWhere('date', 'like', "%{$search}%");
+                });
+            })
             ->orderByDesc('created_at')
-            ->paginate($perPage);
+            ->paginate($perPage)
+            ->appends($request->query());
 
         return MarriageResource::collection($marriages)->response();
     }
