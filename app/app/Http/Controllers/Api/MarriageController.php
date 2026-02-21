@@ -7,39 +7,18 @@ use App\Http\Requests\Api\StoreMarriageRequest;
 use App\Http\Requests\Api\UpdateMarriageRequest;
 use App\Http\Resources\MarriageResource;
 use App\Models\Marriage;
+use App\Services\Marriage\ListMarriage;
+use App\Services\Marriage\ListMarriageService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class MarriageController extends Controller
 {
-    public function index(Request $request): JsonResponse
+    public function index(Request $request, ListMarriageService $marriageService): JsonResponse
     {
-        $perPage = (int) $request->query('per_page', 15);
-        $perPage = max(1, min($perPage, 100));
-        $search = trim((string) $request->query('q', ''));
+        $dto = ListMarriage::fromRequest($request);
 
-        $marriages = Marriage::query()
-            ->when($search !== '', function ($query) use ($search) {
-                $query->where(function ($builder) use ($search) {
-                    $builder
-                        ->where('bride_full_name', 'like', "%{$search}%")
-                        ->orWhere('bride_parents', 'like', "%{$search}%")
-                        ->orWhere('groom_full_name', 'like', "%{$search}%")
-                        ->orWhere('groom_parents', 'like', "%{$search}%")
-                        ->orWhere('celebrant', 'like', "%{$search}%")
-                        ->orWhere('church', 'like', "%{$search}%")
-                        ->orWhere('married_on', 'like', "%{$search}%")
-                        ->orWhere('witness1', 'like', "%{$search}%")
-                        ->orWhere('witness2', 'like', "%{$search}%")
-                        ->orWhere('reg_no', 'like', "%{$search}%")
-                        ->orWhere('page_no', 'like', "%{$search}%")
-                        ->orWhere('book_no', 'like', "%{$search}%")
-                        ->orWhere('date', 'like', "%{$search}%");
-                });
-            })
-            ->orderByDesc('created_at')
-            ->paginate($perPage)
-            ->appends($request->query());
+        $marriages = $marriageService->paginate($dto);
 
         return MarriageResource::collection($marriages)->response();
     }

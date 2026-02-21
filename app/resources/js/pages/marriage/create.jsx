@@ -90,30 +90,33 @@ export function MarriageCreatePage() {
 
             <form onSubmit={handleSubmit} className="rounded-3xl border border-slate-200 bg-white p-6">
                 <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
-                    <label className="block text-sm text-slate-600">
-                        <span className="flex items-center gap-1 text-xs font-semibold uppercase tracking-wide text-slate-500">
-                            Record date
-                            <span className="text-rose-500">*</span>
-                        </span>
-                        <input
-                            type="date"
-                            name="date"
-                            value={formData.date}
-                            onChange={handleChange}
-                            className="mt-2 w-full rounded-2xl border border-slate-200 px-4 py-2 text-sm text-slate-900 focus:border-indigo-500 focus:outline-none"
-                            placeholder="Record date"
-                            required={true}
-                        />
-                        {formErrors['date'] && (
-                            <span className="mt-1 block text-xs text-rose-500">
-                                {formErrors['date'][0]}
+
+                    <div className="col-span-2 lg:col-span-3">
+                        <label className="float-right block text-sm text-slate-600">
+                            <span className="gap-1 text-xs font-semibold uppercase tracking-wide text-slate-500 mx-2">
+                                Date
+                                <span className="text-rose-500">*</span>
                             </span>
-                        )}
-                    </label>
+                            <input
+                                type="date"
+                                name="date"
+                                value={formData.date}
+                                onChange={handleChange}
+                                className="mt-2  rounded-2xl border border-slate-200 px-4 py-2 text-sm text-slate-900 focus:border-indigo-500 focus:outline-none"
+                                placeholder="Record date"
+                                required={true}
+                            />
+                            {formErrors['date'] && (
+                                <span className="mt-1 block text-xs text-rose-500">
+                                    {formErrors['date'][0]}
+                                </span>
+                            )}
+                        </label>
+                    </div>
 
                     <label className="block text-sm text-slate-600">
                         <span className="flex items-center gap-1 text-xs font-semibold uppercase tracking-wide text-slate-500">
-                            Bride full name
+                            Bride
                             <span className="text-rose-500">*</span>
                         </span>
                         <input
@@ -132,30 +135,32 @@ export function MarriageCreatePage() {
                         )}
                     </label>
 
-                    <label className="block text-sm text-slate-600">
-                        <span className="flex items-center gap-1 text-xs font-semibold uppercase tracking-wide text-slate-500">
-                            Bride parents
-                            <span className="text-rose-500">*</span>
-                        </span>
-                        <input
-                            type="text"
-                            name="bride_parents"
-                            value={formData.bride_parents}
-                            onChange={handleChange}
-                            className="mt-2 w-full rounded-2xl border border-slate-200 px-4 py-2 text-sm text-slate-900 focus:border-indigo-500 focus:outline-none"
-                            placeholder="Bride parents"
-                            required={true}
-                        />
-                        {formErrors['bride_parents'] && (
-                            <span className="mt-1 block text-xs text-rose-500">
-                                {formErrors['bride_parents'][0]}
+                    <div className="col-span-1 lg:col-span-2">
+                        <label className="block text-sm text-slate-600">
+                            <span className="flex items-center gap-1 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                                Bride parents
+                                <span className="text-rose-500">*</span>
                             </span>
-                        )}
-                    </label>
+                            <input
+                                type="text"
+                                name="bride_parents"
+                                value={formData.bride_parents}
+                                onChange={handleChange}
+                                className="mt-2 w-full rounded-2xl border border-slate-200 px-4 py-2 text-sm text-slate-900 focus:border-indigo-500 focus:outline-none"
+                                placeholder="Bride parents"
+                                required={true}
+                            />
+                            {formErrors['bride_parents'] && (
+                                <span className="mt-1 block text-xs text-rose-500">
+                                    {formErrors['bride_parents'][0]}
+                                </span>
+                            )}
+                        </label>
+                    </div>
 
                     <label className="block text-sm text-slate-600">
                         <span className="flex items-center gap-1 text-xs font-semibold uppercase tracking-wide text-slate-500">
-                            Groom full name
+                            Groom
                             <span className="text-rose-500">*</span>
                         </span>
                         <input
@@ -174,26 +179,28 @@ export function MarriageCreatePage() {
                         )}
                     </label>
 
-                    <label className="block text-sm text-slate-600">
-                        <span className="flex items-center gap-1 text-xs font-semibold uppercase tracking-wide text-slate-500">
-                            Groom parents
-                            <span className="text-rose-500">*</span>
-                        </span>
-                        <input
-                            type="text"
-                            name="groom_parents"
-                            value={formData.groom_parents}
-                            onChange={handleChange}
-                            className="mt-2 w-full rounded-2xl border border-slate-200 px-4 py-2 text-sm text-slate-900 focus:border-indigo-500 focus:outline-none"
-                            placeholder="Groom parents"
-                            required={true}
-                        />
-                        {formErrors['groom_parents'] && (
-                            <span className="mt-1 block text-xs text-rose-500">
-                                {formErrors['groom_parents'][0]}
+                    <div className="col-span-1 lg:col-span-2">
+                        <label className="block text-sm text-slate-600">
+                            <span className="flex items-center gap-1 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                                Groom parents
+                                <span className="text-rose-500">*</span>
                             </span>
-                        )}
-                    </label>
+                            <input
+                                type="text"
+                                name="groom_parents"
+                                value={formData.groom_parents}
+                                onChange={handleChange}
+                                className="mt-2 w-full rounded-2xl border border-slate-200 px-4 py-2 text-sm text-slate-900 focus:border-indigo-500 focus:outline-none"
+                                placeholder="Groom parents"
+                                required={true}
+                            />
+                            {formErrors['groom_parents'] && (
+                                <span className="mt-1 block text-xs text-rose-500">
+                                    {formErrors['groom_parents'][0]}
+                                </span>
+                            )}
+                        </label>
+                    </div>
 
                     <label className="block text-sm text-slate-600">
                         <span className="flex items-center gap-1 text-xs font-semibold uppercase tracking-wide text-slate-500">
@@ -296,64 +303,69 @@ export function MarriageCreatePage() {
                         )}
                     </label>
 
-                    <label className="block text-sm text-slate-600">
-                        <span className="flex items-center gap-1 text-xs font-semibold uppercase tracking-wide text-slate-500">
-                            Registry number
-                            <span className="text-rose-500">*</span>
-                        </span>
-                        <input
-                            type="text"
-                            name="reg_no"
-                            value={formData.reg_no}
-                            onChange={handleChange}
-                            className="mt-2 w-full rounded-2xl border border-slate-200 px-4 py-2 text-sm text-slate-900 focus:border-indigo-500 focus:outline-none"
-                            placeholder="Registry number"
-                            required={true}
-                        />
-                        {formErrors['reg_no'] && (
-                            <span className="mt-1 block text-xs text-rose-500">
-                                {formErrors['reg_no'][0]}
-                            </span>
-                        )}
-                    </label>
+                    <div className="col-span-full">
+                        <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+                            <label className="block text-sm text-slate-600">
+                                <span className="flex items-center gap-1 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                                    Registry number
+                                    <span className="text-rose-500">*</span>
+                                </span>
+                                <input
+                                    type="text"
+                                    name="reg_no"
+                                    value={formData.reg_no}
+                                    onChange={handleChange}
+                                    className="mt-2 w-full rounded-2xl border border-slate-200 px-4 py-2 text-sm text-slate-900 focus:border-indigo-500 focus:outline-none"
+                                    placeholder="Registry number"
+                                    required={true}
+                                />
+                                {formErrors['reg_no'] && (
+                                    <span className="mt-1 block text-xs text-rose-500">
+                                        {formErrors['reg_no'][0]}
+                                    </span>
+                                )}
+                            </label>
 
-                    <label className="block text-sm text-slate-600">
-                        <span className="flex items-center gap-1 text-xs font-semibold uppercase tracking-wide text-slate-500">
-                            Page number
-                        </span>
-                        <input
-                            type="text"
-                            name="page_no"
-                            value={formData.page_no}
-                            onChange={handleChange}
-                            className="mt-2 w-full rounded-2xl border border-slate-200 px-4 py-2 text-sm text-slate-900 focus:border-indigo-500 focus:outline-none"
-                            placeholder="Page number"
-                        />
-                        {formErrors['page_no'] && (
-                            <span className="mt-1 block text-xs text-rose-500">
-                                {formErrors['page_no'][0]}
-                            </span>
-                        )}
-                    </label>
+                            <label className="block text-sm text-slate-600">
+                                <span className="flex items-center gap-1 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                                    Page number
+                                </span>
+                                <input
+                                    type="text"
+                                    name="page_no"
+                                    value={formData.page_no}
+                                    onChange={handleChange}
+                                    className="mt-2 w-full rounded-2xl border border-slate-200 px-4 py-2 text-sm text-slate-900 focus:border-indigo-500 focus:outline-none"
+                                    placeholder="Page number"
+                                />
+                                {formErrors['page_no'] && (
+                                    <span className="mt-1 block text-xs text-rose-500">
+                                        {formErrors['page_no'][0]}
+                                    </span>
+                                )}
+                            </label>
 
-                    <label className="block text-sm text-slate-600">
-                        <span className="flex items-center gap-1 text-xs font-semibold uppercase tracking-wide text-slate-500">
-                            Book number
-                        </span>
-                        <input
-                            type="text"
-                            name="book_no"
-                            value={formData.book_no}
-                            onChange={handleChange}
-                            className="mt-2 w-full rounded-2xl border border-slate-200 px-4 py-2 text-sm text-slate-900 focus:border-indigo-500 focus:outline-none"
-                            placeholder="Book number"
-                        />
-                        {formErrors['book_no'] && (
-                            <span className="mt-1 block text-xs text-rose-500">
-                                {formErrors['book_no'][0]}
-                            </span>
-                        )}
-                    </label>
+                            <label className="block text-sm text-slate-600">
+                                <span className="flex items-center gap-1 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                                    Book number
+                                </span>
+                                <input
+                                    type="text"
+                                    name="book_no"
+                                    value={formData.book_no}
+                                    onChange={handleChange}
+                                    className="mt-2 w-full rounded-2xl border border-slate-200 px-4 py-2 text-sm text-slate-900 focus:border-indigo-500 focus:outline-none"
+                                    placeholder="Book number"
+                                />
+                                {formErrors['book_no'] && (
+                                    <span className="mt-1 block text-xs text-rose-500">
+                                        {formErrors['book_no'][0]}
+                                    </span>
+                                )}
+                            </label>
+                        </div>
+                    </div>
+
                 </div>
 
                 <div className="flex flex-wrap items-center gap-3 pt-2">

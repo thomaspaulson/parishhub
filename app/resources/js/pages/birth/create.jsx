@@ -91,26 +91,28 @@ export function BirthCreatePage() {
             <form onSubmit={handleSubmit} className="rounded-3xl border border-slate-200 bg-white p-6">
                 <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
 
-                    <label className="block text-sm text-slate-600">
-                        <span className="flex items-center gap-1 text-xs font-semibold uppercase tracking-wide text-slate-500">
-                            Date
-                            <span className="text-rose-500">*</span>
-                        </span>
-                        <input
-                            type="date"
-                            name="date"
-                            value={formData.date}
-                            onChange={handleChange}
-                            className="mt-2 w-full rounded-2xl border border-slate-200 px-4 py-2 text-sm text-slate-900 focus:border-indigo-500 focus:outline-none"
-                            placeholder="Date"
-                            required={true}
-                        />
-                        {formErrors['date'] && (
-                            <span className="mt-1 block text-xs text-rose-500">
-                                {formErrors['date'][0]}
+                    <div className="col-span-2 lg:col-span-3">
+                        <label className="float-right block text-sm text-slate-600">
+                            <span className="gap-1 text-xs font-semibold uppercase tracking-wide text-slate-500 mx-2">
+                                Date
+                                <span className="text-rose-500">*</span>
                             </span>
-                        )}
-                    </label>
+                            <input
+                                type="date"
+                                name="date"
+                                value={formData.date}
+                                onChange={handleChange}
+                                className="mt-2  rounded-2xl border border-slate-200 px-4 py-2 text-sm text-slate-900 focus:border-indigo-500 focus:outline-none"
+                                placeholder="Record date"
+                                required={true}
+                            />
+                            {formErrors['date'] && (
+                                <span className="mt-1 block text-xs text-rose-500">
+                                    {formErrors['date'][0]}
+                                </span>
+                            )}
+                        </label>
+                    </div>
 
                     <label className="block text-sm text-slate-600">
                         <span className="flex items-center gap-1 text-xs font-semibold uppercase tracking-wide text-slate-500">
