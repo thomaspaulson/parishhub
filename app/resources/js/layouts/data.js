@@ -44,9 +44,7 @@ export const navItems = [
     { label: 'Home', to: '/' },
     { label: 'Login', to: '/login' },
     { label: 'Records', to: '/records' },
-    { label: 'Workflow', to: '/workflow' },
     { label: 'Insights', to: '/insights' },
-    { label: 'Settings', to: '/settings' },
 ];
 
 export const adminNavItems = [

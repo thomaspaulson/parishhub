@@ -1,12 +1,36 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import { adminNavItems } from './data';
+import api from '../api/axios';
 
 const adminNavLinkClass = ({ isActive }) =>
     `flex items-center justify-between rounded-xl px-4 py-3 text-sm transition ${isActive ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/20' : 'text-slate-600 hover:bg-slate-100'
     }`;
 
 export function AdminLayout() {
+
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    // Load user on app start
+    useEffect(() => {
+        api.get('/api/user')
+            .then(res => setUser(res.data))
+            .catch(() => setUser(null))
+            .finally(() => setLoading(false));
+    }, []);
+
+    async function handleLogout() {
+        try {
+            await api.post('/api/auth/logout');
+            localStorage.removeItem('auth_token');
+            setUser(null)
+            window.location.href = '/login';
+        } catch (error) {
+            //
+        }
+    }
+
     return (
         <div className="min-h-screen bg-slate-50 text-slate-900">
             <div className="flex min-h-screen">
@@ -28,7 +52,7 @@ export function AdminLayout() {
                         ))}
                     </nav>
                     <div className="mt-auto rounded-2xl border border-slate-200 bg-slate-50 p-4 text-xs text-slate-600">
-                        Signed in as <span className="font-semibold text-slate-900">Admin</span>.
+                        Signed in as <span className="font-semibold text-slate-900">{user?.name}</span>.
                     </div>
                 </aside>
 
@@ -39,9 +63,15 @@ export function AdminLayout() {
                                 <p className="text-xs uppercase tracking-[0.3em] text-indigo-600">Admin Portal</p>
                                 <h1 className="text-xl font-semibold text-slate-900">ParishHub Operations</h1>
                             </div>
-                            <NavLink className="rounded-full border border-indigo-200 px-4 py-2 text-sm text-indigo-700" to="/">
+                            <button
+                                onClick={handleLogout}
+                                className="rounded-full border border-indigo-200 px-4 py-2 text-sm text-indigo-700"
+                            >
+                                Logout
+                            </button>
+                            {/* <NavLink className="rounded-full border border-indigo-200 px-4 py-2 text-sm text-indigo-700" to="/">
                                 View public site
-                            </NavLink>
+                            </NavLink> */}
                         </div>
                     </header>
                     <main className="flex-1 px-6 py-10">

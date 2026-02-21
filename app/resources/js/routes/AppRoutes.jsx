@@ -2,18 +2,13 @@ import React from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 import { AdminLayout } from '../layouts/AdminLayout';
 import { PublicLayout } from '../layouts/PublicLayout';
-import { DashboardPage } from '../pages/DashboardPage';
-import { AdminRegistriesPage } from '../pages/AdminRegistriesPage';
-import { AdminReportsPage } from '../pages/AdminReportsPage';
-import { AdminSettingsPage } from '../pages/AdminSettingsPage';
-import { AdminTeamPage } from '../pages/AdminTeamPage';
+import { DashboardPage } from '../pages/dashboard';
+import { AdminSettingsPage } from '../pages/admin/AdminSettingsPage';
 import { HomePage } from '../pages/HomePage';
 import { InsightsPage } from '../pages/InsightsPage';
 import { LoginPage } from '../pages/LoginPage';
 import { NotFoundPage } from '../pages/NotFoundPage';
 import { RecordsPage } from '../pages/RecordsPage';
-import { SettingsPage } from '../pages/SettingsPage';
-import { WorkflowPage } from '../pages/WorkflowPage';
 import DeathRoutes from '../pages/death/routes';
 import BirthRoutes from '../pages/birth/routes';
 import MarriageRoutes from '../pages/marriage/routes';
@@ -27,9 +22,7 @@ export const appRouter = createBrowserRouter([
             { path: '/', element: <HomePage /> },
             { path: '/login', element: <LoginPage /> },
             { path: '/records', element: <RecordsPage /> },
-            { path: '/workflow', element: <WorkflowPage /> },
             { path: '/insights', element: <InsightsPage /> },
-            { path: '/settings', element: <SettingsPage /> }
         ]
     },
     {
@@ -43,9 +36,6 @@ export const appRouter = createBrowserRouter([
                     { path: 'deaths/*', element: <DeathRoutes /> },
                     { path: 'births/*', element: <BirthRoutes /> },
                     { path: 'marriages/*', element: <MarriageRoutes /> },
-                    { path: 'registries', element: <AdminRegistriesPage /> },
-                    { path: 'team', element: <AdminTeamPage /> },
-                    { path: 'reports', element: <AdminReportsPage /> },
                     { path: 'settings', element: <AdminSettingsPage /> }
                 ]
             }

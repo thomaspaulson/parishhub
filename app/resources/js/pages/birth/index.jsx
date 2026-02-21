@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
+import api from '../../api/axios';
 
 export function BirthListPage() {
     const [births, setBirths] = useState([]);
@@ -21,19 +22,12 @@ export function BirthListPage() {
                 }
                 return `/api/births?${params.toString()}`;
             })();
-            const response = await fetch(requestUrl, {
-                headers: {
-                    Accept: 'application/json'
-                }
-            });
 
-            if (!response.ok) {
-                throw new Error('Unable to load Birth records.');
-            }
+            const response = await api.get(requestUrl);
+            const { data, meta } = response.data;
+            setBirths(data ?? []);
+            setMeta(meta ?? null);
 
-            const payload = await response.json();
-            setBirths(payload.data ?? []);
-            setMeta(payload.meta ?? null);
         } catch (error) {
             setErrorMessage(error instanceof Error ? error.message : 'Unexpected error.');
         } finally {

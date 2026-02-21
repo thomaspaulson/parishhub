@@ -24,11 +24,11 @@ export function HomePage() {
                             </p>
                             <div className="mt-8 flex flex-wrap gap-4">
                                 <button className="rounded-full bg-indigo-500 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/40 transition hover:bg-indigo-400">
-                                    Start free trial
-                                </button>
-                                <button className="rounded-full border border-slate-300 px-6 py-3 text-sm font-semibold text-slate-700 transition hover:border-slate-400">
                                     View dashboard
                                 </button>
+                                {/* <button className="rounded-full border border-slate-300 px-6 py-3 text-sm font-semibold text-slate-700 transition hover:border-slate-400">
+                                    View dashboard
+                                </button> */}
                             </div>
                             <div className="mt-10 grid gap-4 text-sm text-slate-600 sm:grid-cols-3">
                                 {stats.map((item) => (

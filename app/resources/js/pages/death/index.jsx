@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
+import api from '../../api/axios';
 
 export function DeathListPage() {
     const [deaths, setDeaths] = useState([]);
@@ -7,30 +8,32 @@ export function DeathListPage() {
     const [isLoading, setIsLoading] = useState(true);
     const [errorMessage, setErrorMessage] = useState('');
     const [deletingId, setDeletingId] = useState(null);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [searchQuery, setSearchQuery] = useState('');
 
-    const loadDeaths = useCallback(async (url = '/api/deaths?per_page=15') => {
+    const loadDeaths = useCallback(async ({ url, search = searchQuery } = {}) => {
         setIsLoading(true);
         setErrorMessage('');
         try {
-            const response = await fetch(url, {
-                headers: {
-                    Accept: 'application/json'
+            const requestUrl = url ?? (() => {
+                const params = new URLSearchParams({ per_page: '15' });
+                if (search) {
+                    params.set('q', search);
                 }
-            });
+                return `/api/deaths?${params.toString()}`;
+            })();
 
-            if (!response.ok) {
-                throw new Error('Unable to load death records.');
-            }
+            const response = await api.get(requestUrl);
+            const { data, meta } = response.data;
+            setDeaths(data ?? []);
+            setMeta(meta ?? null);
 
-            const payload = await response.json();
-            setDeaths(payload.data ?? []);
-            setMeta(payload.meta ?? null);
         } catch (error) {
             setErrorMessage(error instanceof Error ? error.message : 'Unexpected error.');
         } finally {
             setIsLoading(false);
         }
-    }, []);
+    }, [searchQuery]);
 
     useEffect(() => {
         loadDeaths();
@@ -72,6 +75,19 @@ export function DeathListPage() {
         }
     };
 
+    const handleSearchSubmit = (event) => {
+        event.preventDefault();
+        const trimmed = searchTerm.trim();
+        setSearchQuery(trimmed);
+        loadDeaths({ search: trimmed });
+    };
+
+    const handleSearchClear = () => {
+        setSearchTerm('');
+        setSearchQuery('');
+        loadDeaths({ search: '' });
+    };
+
     return (
         <section className="space-y-4">
             <div className="flex flex-wrap items-center justify-between gap-3">
@@ -79,6 +95,11 @@ export function DeathListPage() {
                     <div>
                         <h2 className="text-2xl font-semibold text-slate-900">Death records</h2>
                         {totalLabel && <p className="mt-1 text-sm text-slate-500">{totalLabel}</p>}
+                        {searchQuery && (
+                            <p className="mt-1 text-xs text-slate-400">
+                                Showing results for <span className="font-semibold text-slate-600">"{searchQuery}"</span>
+                            </p>
+                        )}
                     </div>
                 </header>
 
@@ -98,6 +119,36 @@ export function DeathListPage() {
                     </button>
                 </div>
             </div>
+
+            <form onSubmit={handleSearchSubmit} className="flex flex-wrap items-center gap-3 rounded-3xl border border-slate-200 bg-white px-4 py-3">
+                <div className="flex min-w-[220px] flex-1 items-center gap-2">
+                    <span className="text-xs font-semibold uppercase tracking-wide text-slate-500">Search</span>
+                    <input
+                        type="search"
+                        name="q"
+                        value={searchTerm}
+                        onChange={(event) => setSearchTerm(event.target.value)}
+                        placeholder="Name, date of death, registry..."
+                        className="w-full rounded-full border border-slate-200 px-4 py-2 text-sm text-slate-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+                    />
+                </div>
+                <div className="flex flex-wrap items-center gap-2">
+                    <button
+                        type="submit"
+                        className="rounded-full bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-500"
+                    >
+                        Search
+                    </button>
+                    <button
+                        type="button"
+                        onClick={handleSearchClear}
+                        className="rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 hover:border-slate-300 hover:text-slate-900"
+                        disabled={!searchTerm && !searchQuery}
+                    >
+                        Clear
+                    </button>
+                </div>
+            </form>
 
             {errorMessage && (
                 <div className="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">
@@ -174,7 +225,7 @@ export function DeathListPage() {
                         <button
                             key={link.label}
                             type="button"
-                            onClick={() => link.url && loadDeaths(`${link.url}&per_page=${meta}`)}
+                            onClick={() => link.url && loadDeaths({ url: link.url })}
                             className={`rounded-full border px-3 py-1 ${link.active ? 'border-indigo-500 text-indigo-600' : 'border-slate-200 text-slate-600'} ${link.url ? 'hover:border-slate-300' : 'cursor-not-allowed opacity-60'}`}
                             disabled={!link.url}
                             dangerouslySetInnerHTML={{ __html: link.label }}

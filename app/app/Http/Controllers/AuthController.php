@@ -40,9 +40,9 @@ class AuthController extends Controller
         ]);
 
         if (! Auth::attempt($credentials)) {
-            throw ValidationException::withMessages([
-                'email' => ['The provided credentials are incorrect.'],
-            ]);
+            return response()->json([
+                'message' => 'The provided credentials are incorrect.',
+            ], 401);
         }
 
         // $request->session()->regenerate();
@@ -55,15 +55,4 @@ class AuthController extends Controller
         ]);
     }
 
-    public function logout(Request $request)
-    {
-        Auth::logout();
-
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return response()->json([
-            'message' => 'Logged out successfully.',
-        ]);
-    }
 }

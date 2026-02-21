@@ -6,7 +6,6 @@ const getAuthToken = () => localStorage.getItem('auth_token') ?? localStorage.ge
 export const ProtectedRoute = ({ redirectTo = '/login' }) => {
     const location = useLocation();
     const token = getAuthToken();
-
     if (!token) {
         return <Navigate to={redirectTo} replace state={{ from: location }} />;
     }

@@ -431,6 +431,8 @@ paths:
       tags:
         - Deaths
       summary: List all deaths
+      security:
+        - bearerAuth: []
       responses:
         '200':
           description: List of deaths
@@ -442,6 +444,8 @@ paths:
       tags:
         - Deaths
       summary: Create a new death
+      security:
+        - bearerAuth: []
       requestBody:
         required: true
         content:
@@ -467,6 +471,8 @@ paths:
       tags:
         - Deaths
       summary: Get death by ID
+      security:
+        - bearerAuth: []
       parameters:
         - name: death
           in: path
@@ -487,6 +493,8 @@ paths:
       tags:
         - Deaths
       summary: Update death
+      security:
+        - bearerAuth: []
       parameters:
         - name: death
           in: path
@@ -515,6 +523,8 @@ paths:
       tags:
         - Deaths
       summary: Delete death
+      security:
+        - bearerAuth: []
       parameters:
         - name: death
           in: path
@@ -533,6 +543,8 @@ paths:
       tags:
         - Births
       summary: List all births
+      security:
+        - bearerAuth: []
       responses:
         '200':
           description: List of births
@@ -544,6 +556,8 @@ paths:
       tags:
         - Births
       summary: Create a new birth
+      security:
+        - bearerAuth: []
       requestBody:
         required: true
         content:
@@ -569,6 +583,8 @@ paths:
       tags:
         - Births
       summary: Get birth by ID
+      security:
+        - bearerAuth: []
       parameters:
         - name: birth
           in: path
@@ -589,6 +605,8 @@ paths:
       tags:
         - Births
       summary: Update birth
+      security:
+        - bearerAuth: []
       parameters:
         - name: birth
           in: path
@@ -621,6 +639,8 @@ paths:
       tags:
         - Births
       summary: Delete birth
+      security:
+        - bearerAuth: []
       parameters:
         - name: birth
           in: path
@@ -639,6 +659,8 @@ paths:
       tags:
         - Marriages
       summary: List all marriages
+      security:
+        - bearerAuth: []
       responses:
         '200':
           description: List of marriages
@@ -650,6 +672,8 @@ paths:
       tags:
         - Marriages
       summary: Create a new marriage
+      security:
+        - bearerAuth: []
       requestBody:
         required: true
         content:
@@ -675,6 +699,8 @@ paths:
       tags:
         - Marriages
       summary: Get marriage by ID
+      security:
+        - bearerAuth: []
       parameters:
         - name: marriage
           in: path
@@ -695,6 +721,8 @@ paths:
       tags:
         - Marriages
       summary: Update marriage
+      security:
+        - bearerAuth: []
       parameters:
         - name: marriage
           in: path
@@ -727,6 +755,8 @@ paths:
       tags:
         - Marriages
       summary: Delete marriage
+      security:
+        - bearerAuth: []
       parameters:
         - name: marriage
           in: path
