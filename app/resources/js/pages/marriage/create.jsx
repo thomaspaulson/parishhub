@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import api from '../../api/axios';
 
 const emptyForm = {
     date: '',
@@ -41,28 +42,14 @@ export function MarriageCreatePage() {
         setFormErrors({});
 
         try {
-            const response = await fetch('/api/marriages', {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(formData)
-            });
-
-            if (response.status === 422) {
-                const payload = await response.json();
-                setFormErrors(payload.errors ?? {});
-                return;
-            }
-
-            if (!response.ok) {
-                throw new Error('Unable to save the marriage record.');
-            }
-
+            const response = await api.post(`/api/marriages`, formData);
             resetForm();
             setSuccessMessage('Marriage record created successfully.');
         } catch (error) {
+            const { response: { data: { errors } }, status } = error;
+            if (status === 422) {
+                setFormErrors(errors ?? {});
+            }
             setErrorMessage(error instanceof Error ? error.message : 'Unexpected error.');
         } finally {
             setIsSaving(false);

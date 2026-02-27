@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import api from '../../api/axios';
 
 const emptyForm = {
     date: '',
@@ -34,37 +35,10 @@ export function BirthEditPage() {
             setIsLoading(true);
             setErrorMessage('');
             try {
-                const response = await fetch(`/api/births/${id}`, {
-                    headers: {
-                        Accept: 'application/json'
-                    }
-                });
+                const response = await api.get(`/api/births/${id}`);
+                const { data } = response.data;
+                setFormData(data);
 
-                if (!response.ok) {
-                    throw new Error('Unable to load Birth record.');
-                }
-
-                const payload = await response.json();
-                if (!isMounted) {
-                    return;
-                }
-
-                const record = payload.data ?? payload;
-                setFormData(record);
-                // setFormData({
-                //     date: record.date ?? '',
-                //     full_name: record.full_name ?? '',
-                //     parent: record.parent ?? '',
-                //     address: record.address ?? '',
-                //     spouse: record.spouse ?? '',
-                //     date_of_Birth: record.date_of_Birth ?? '',
-                //     cause_of_Birth: record.cause_of_Birth ?? '',
-                //     place_of_burial: record.place_of_burial ?? '',
-                //     date_of_burial: record.date_of_burial ?? '',
-                //     reg_no: record.reg_no ?? '',
-                //     page_no: record.page_no ?? '',
-                //     book_no: record.book_no ?? ''
-                // });
             } catch (error) {
                 if (isMounted) {
                     setErrorMessage(error instanceof Error ? error.message : 'Unexpected error.');
@@ -100,27 +74,13 @@ export function BirthEditPage() {
         setFormErrors({});
 
         try {
-            const response = await fetch(`/api/births/${id}`, {
-                method: 'PUT',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(formData)
-            });
-
-            if (response.status === 422) {
-                const payload = await response.json();
-                setFormErrors(payload.errors ?? {});
-                return;
-            }
-
-            if (!response.ok) {
-                throw new Error('Unable to update the Birth record.');
-            }
-
+            const response = await api.put(`/api/births/${id}`, formData);
             setSuccessMessage('Birth record updated successfully.');
         } catch (error) {
+            const { response: { data: { errors } }, status } = error;
+            if (status === 422) {
+                setFormErrors(errors ?? {});
+            }
             setErrorMessage(error instanceof Error ? error.message : 'Unexpected error.');
         } finally {
             setIsSaving(false);
