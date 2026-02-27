@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import api from '../../api/axios';
 
 const emptyForm = {
     date: '',
@@ -32,36 +33,11 @@ export function DeathEditPage() {
             setIsLoading(true);
             setErrorMessage('');
             try {
-                const response = await fetch(`/api/deaths/${id}`, {
-                    headers: {
-                        Accept: 'application/json'
-                    }
-                });
 
-                if (!response.ok) {
-                    throw new Error('Unable to load death record.');
-                }
+                const response = await api.get(`/api/deaths/${id}`);
+                const { data } = response.data;
+                setFormData(data);
 
-                const payload = await response.json();
-                if (!isMounted) {
-                    return;
-                }
-
-                const record = payload.data ?? payload;
-                setFormData({
-                    date: record.date ?? '',
-                    full_name: record.full_name ?? '',
-                    parent: record.parent ?? '',
-                    address: record.address ?? '',
-                    spouse: record.spouse ?? '',
-                    date_of_death: record.date_of_death ?? '',
-                    cause_of_death: record.cause_of_death ?? '',
-                    place_of_burial: record.place_of_burial ?? '',
-                    date_of_burial: record.date_of_burial ?? '',
-                    reg_no: record.reg_no ?? '',
-                    page_no: record.page_no ?? '',
-                    book_no: record.book_no ?? ''
-                });
             } catch (error) {
                 if (isMounted) {
                     setErrorMessage(error instanceof Error ? error.message : 'Unexpected error.');
@@ -97,27 +73,13 @@ export function DeathEditPage() {
         setFormErrors({});
 
         try {
-            const response = await fetch(`/api/deaths/${id}`, {
-                method: 'PUT',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(formData)
-            });
-
-            if (response.status === 422) {
-                const payload = await response.json();
-                setFormErrors(payload.errors ?? {});
-                return;
-            }
-
-            if (!response.ok) {
-                throw new Error('Unable to update the death record.');
-            }
-
+            const response = await api.put(`/api/deaths/${id}`, formData);
             setSuccessMessage('Death record updated successfully.');
         } catch (error) {
+            const { response: { data: { errors } }, status } = error;
+            if (status === 422) {
+                setFormErrors(errors ?? {});
+            }
             setErrorMessage(error instanceof Error ? error.message : 'Unexpected error.');
         } finally {
             setIsSaving(false);

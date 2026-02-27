@@ -56,17 +56,7 @@ export function DeathListPage() {
         setErrorMessage('');
 
         try {
-            const response = await fetch(`/api/deaths/${recordId}`, {
-                method: 'DELETE',
-                headers: {
-                    Accept: 'application/json'
-                }
-            });
-
-            if (!response.ok) {
-                throw new Error('Unable to delete the death record.');
-            }
-
+            const response = await api.delete(`/api/deaths/${recordId}`);
             await loadDeaths();
         } catch (error) {
             setErrorMessage(error instanceof Error ? error.message : 'Unexpected error.');

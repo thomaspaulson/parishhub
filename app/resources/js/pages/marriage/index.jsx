@@ -57,17 +57,7 @@ export function MarriageListPage() {
         setErrorMessage('');
 
         try {
-            const response = await fetch(`/api/marriages/${recordId}`, {
-                method: 'DELETE',
-                headers: {
-                    Accept: 'application/json'
-                }
-            });
-
-            if (!response.ok) {
-                throw new Error('Unable to delete the marriage record.');
-            }
-
+            const response = await api.delete(`/api/marriages/${recordId}`);
             await loadMarriages();
         } catch (error) {
             setErrorMessage(error instanceof Error ? error.message : 'Unexpected error.');

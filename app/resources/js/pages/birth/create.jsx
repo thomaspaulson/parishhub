@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import api from '../../api/axios';
 
 const emptyForm = {
     date: '',
@@ -41,28 +42,14 @@ export function BirthCreatePage() {
         setFormErrors({});
 
         try {
-            const response = await fetch('/api/births', {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(formData)
-            });
-
-            if (response.status === 422) {
-                const payload = await response.json();
-                setFormErrors(payload.errors ?? {});
-                return;
-            }
-
-            if (!response.ok) {
-                throw new Error('Unable to save the Birth record.');
-            }
-
+            const response = await api.post(`/api/births`, formData);
             resetForm();
             setSuccessMessage('Birth record created successfully.');
         } catch (error) {
+            const { response: { data: { errors } }, status } = error;
+            if (status === 422) {
+                setFormErrors(errors ?? {});
+            }
             setErrorMessage(error instanceof Error ? error.message : 'Unexpected error.');
         } finally {
             setIsSaving(false);

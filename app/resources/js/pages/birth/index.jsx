@@ -56,19 +56,10 @@ export function BirthListPage() {
         setErrorMessage('');
 
         try {
-            const response = await fetch(`/api/births/${recordId}`, {
-                method: 'DELETE',
-                headers: {
-                    Accept: 'application/json'
-                }
-            });
-
-            if (!response.ok) {
-                throw new Error('Unable to delete the Birth record.');
-            }
-
+            const response = await api.delete(`/api/births/${recordId}`);
             await loadBirths();
         } catch (error) {
+            console.log(error);
             setErrorMessage(error instanceof Error ? error.message : 'Unexpected error.');
         } finally {
             setDeletingId(null);
