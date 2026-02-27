@@ -52,5 +52,6 @@ export const adminNavItems = [
     { label: 'Deaths', to: '/admin/deaths' },
     { label: 'Births', to: '/admin/births' },
     { label: 'Marriages', to: '/admin/marriages' },
+    { label: 'Users', to: '/admin/users' },
     { label: 'Settings', to: '/admin/settings' },
 ];

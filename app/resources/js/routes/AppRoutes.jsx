@@ -12,6 +12,7 @@ import { RecordsPage } from '../pages/RecordsPage';
 import DeathRoutes from '../pages/death/routes';
 import BirthRoutes from '../pages/birth/routes';
 import MarriageRoutes from '../pages/marriage/routes';
+import UserRoutes from '../pages/users/routes';
 import { ProtectedRoute } from './ProtectedRoute';
 
 
@@ -36,6 +37,7 @@ export const appRouter = createBrowserRouter([
                     { path: 'deaths/*', element: <DeathRoutes /> },
                     { path: 'births/*', element: <BirthRoutes /> },
                     { path: 'marriages/*', element: <MarriageRoutes /> },
+                    { path: 'users/*', element: <UserRoutes /> },
                     { path: 'settings', element: <AdminSettingsPage /> }
                 ]
             }
