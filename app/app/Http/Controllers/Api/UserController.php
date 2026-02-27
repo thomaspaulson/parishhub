@@ -9,11 +9,14 @@ use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class UserController extends Controller
 {
     public function index(Request $request): JsonResponse
     {
+        Gate::authorize('manage-users');
+
         $perPage = (int) $request->query('per_page', 15);
         $perPage = max(1, min($perPage, 100));
         $search = trim((string) $request->query('q', ''));
@@ -35,6 +38,8 @@ class UserController extends Controller
 
     public function store(StoreUserRequest $request): JsonResponse
     {
+        Gate::authorize('manage-users');
+
         $validated = $request->validated();
         $validated['password'] = \Illuminate\Support\Facades\Hash::make($validated['password']);
 
@@ -47,11 +52,14 @@ class UserController extends Controller
 
     public function show(User $user): JsonResponse
     {
+        Gate::authorize('manage-users');
         return (new UserResource($user))->response();
     }
 
     public function update(UpdateUserRequest $request, User $user): JsonResponse
     {
+        Gate::authorize('manage-users');
+
         $validated = $request->validated();
         if (array_key_exists('password', $validated) && !empty($validated['password'])) {
             $validated['password'] = \Illuminate\Support\Facades\Hash::make($validated['password']);
@@ -64,6 +72,8 @@ class UserController extends Controller
 
     public function destroy(User $user): JsonResponse
     {
+        Gate::authorize('manage-users');
+
         $user->delete();
 
         return response()->json(null, 204);
