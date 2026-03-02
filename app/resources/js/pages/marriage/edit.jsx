@@ -398,6 +398,15 @@ export function MarriageEditPage() {
                         >
                             {isSaving ? 'Saving...' : 'Save changes'}
                         </button>
+                        <button
+                            type="button"
+                            onClick={() => window.history.back()}
+                            className="rounded-full border border-slate-200 px-5 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50"
+                            disabled={isSaving}
+                        >
+                            Back
+                        </button>
+
                     </div>
                 </form>
             )}

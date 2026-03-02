@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\Api\BirthController;
+use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\DeathController;
 use App\Http\Controllers\Api\MarriageController;
+use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -26,4 +28,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('deaths', DeathController::class);
     Route::apiResource('births', BirthController::class);
     Route::apiResource('marriages', MarriageController::class);
+    Route::apiResource('users', UserController::class);
+    Route::get('dashboard', [DashboardController::class, 'summary']);
 });
