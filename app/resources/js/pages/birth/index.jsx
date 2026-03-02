@@ -153,7 +153,7 @@ export function BirthListPage() {
                         <tr>
                             <th className="px-4 py-3">Name</th>
                             <th className="px-4 py-3">Date of Birth</th>
-                            <th className="px-4 py-3">Place of burial</th>
+                            <th className="px-4 py-3">Date of Baptism</th>
                             <th className="px-4 py-3">Registry</th>
                             <th className="px-4 py-3 text-right">Actions</th>
                         </tr>
@@ -178,8 +178,8 @@ export function BirthListPage() {
                                         <div className="font-semibold text-slate-900">{record.full_name}</div>
                                         <div className="text-xs text-slate-500">{record.address}</div>
                                     </td>
-                                    <td className="px-4 py-4 text-slate-700">{record.date_of_Birth}</td>
-                                    <td className="px-4 py-4 text-slate-700">{record.place_of_burial}</td>
+                                    <td className="px-4 py-4 text-slate-700">{record.date_of_birth}</td>
+                                    <td className="px-4 py-4 text-slate-700">{record.date_of_baptism}</td>
                                     <td className="px-4 py-4 text-slate-700">
                                         {record.reg_no}
                                         {record.page_no ? ` · p.${record.page_no}` : ''}
