@@ -112,8 +112,8 @@
                     <div class="rounded-2xl border border-slate-200 p-5">
                         <p class="text-xs uppercase tracking-wide text-slate-400">Additional Notes</p>
                         <p class="mt-2 text-sm text-slate-600">
-                            This certificate is generated from the official parish registry. For corrections,
-                            contact the parish office within 30 days of issuance.
+                            This certificate is generated from the official parish registry.
+                            <!-- For corrections, contact the parish office within 30 days of issuance. -->
                         </p>
                     </div>
                 </section>
