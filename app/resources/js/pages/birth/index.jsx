@@ -11,7 +11,9 @@ export function BirthListPage() {
     const [searchTerm, setSearchTerm] = useState('');
     const [searchQuery, setSearchQuery] = useState('');
 
-    const loadBirths = useCallback(async ({ url, search = searchQuery } = {}) => {
+    const [searchFields, setSearchFields] = useState({ term: '', month: '', year: '' });
+
+    const loadBirths = useCallback(async ({ url, search = searchQuery, month, year } = {}) => {
         setIsLoading(true);
         setErrorMessage('');
         try {
@@ -20,6 +22,13 @@ export function BirthListPage() {
                 if (search) {
                     params.set('q', search);
                 }
+                if (month) {
+                    params.set('month', month);
+                }
+                if (year) {
+                    params.set('year', year);
+                }
+
                 return `/api/births?${params.toString()}`;
             })();
 
@@ -56,21 +65,30 @@ export function BirthListPage() {
         setErrorMessage('');
 
         try {
-            const response = await api.delete(`/api/births/${recordId}`);
+            await api.delete(`/api/births/${recordId}`);
             await loadBirths();
         } catch (error) {
-            console.log(error);
             setErrorMessage(error instanceof Error ? error.message : 'Unexpected error.');
         } finally {
             setDeletingId(null);
         }
     };
 
+    const handleChange = ({ target: { name, value } }) => {
+        setSearchFields({
+            ...searchFields,
+            [name]: value
+        });
+    };
+
     const handleSearchSubmit = (event) => {
         event.preventDefault();
-        const trimmed = searchTerm.trim();
+        const trimmed = searchFields.term.trim();
         setSearchQuery(trimmed);
-        loadBirths({ search: trimmed });
+
+        const month = searchFields.month;
+        const year = searchFields.year;
+        loadBirths({ search: trimmed, month, year });
     };
 
     const handleSearchClear = () => {
@@ -78,6 +96,10 @@ export function BirthListPage() {
         setSearchQuery('');
         loadBirths({ search: '' });
     };
+
+    const term = searchFields.term.trim();
+    const month = searchFields.month;
+    const year = searchFields.year;
 
     return (
         <section className="space-y-4">
@@ -116,28 +138,64 @@ export function BirthListPage() {
                     <span className="text-xs font-semibold uppercase tracking-wide text-slate-500">Search</span>
                     <input
                         type="search"
-                        name="q"
-                        value={searchTerm}
-                        onChange={(event) => setSearchTerm(event.target.value)}
+                        name="term"
+                        value={term}
+                        onChange={handleChange}
                         placeholder="Name, date of birth, registry..."
                         className="w-full rounded-full border border-slate-200 px-4 py-2 text-sm text-slate-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200"
                     />
                 </div>
                 <div className="flex flex-wrap items-center gap-2">
-                    <button
-                        type="submit"
-                        className="rounded-full bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-500"
-                    >
-                        Search
-                    </button>
-                    <button
-                        type="button"
-                        onClick={handleSearchClear}
-                        className="rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 hover:border-slate-300 hover:text-slate-900"
-                        disabled={!searchTerm && !searchQuery}
-                    >
-                        Clear
-                    </button>
+                    <div className="flex flex-wrap items-center gap-2">
+                        <div className="flex items-center gap-2">
+                            <span className="text-xs font-semibold uppercase tracking-wide text-slate-500">Month</span>
+                            <select
+                                name="month"
+                                className="rounded-full border border-slate-200 px-4 py-2 text-sm text-slate-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+                                value={month}
+                                onChange={handleChange}
+                            >
+                                <option value="">All</option>
+                                {[
+                                    'January', 'February', 'March', 'April', 'May', 'June',
+                                    'July', 'August', 'September', 'October', 'November', 'December',
+                                ].map((label, index) => (
+                                    <option key={label} value={`${index + 1}`} selected={month === `${index + 1}`}>
+                                        {label}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <span className="text-xs font-semibold uppercase tracking-wide text-slate-500">Year</span>
+                            <input
+                                type="number"
+                                name="year"
+                                min="1800"
+                                max="2100"
+                                placeholder="YYYY"
+                                className="w-28 rounded-full border border-slate-200 px-4 py-2 text-sm text-slate-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+                                value={year}
+                                onChange={handleChange}
+                            />
+                        </div>
+                    </div>
+                    <div className="flex flex-wrap items-center gap-2">
+                        <button
+                            type="submit"
+                            className="rounded-full bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-500"
+                        >
+                            Search
+                        </button>
+                        <button
+                            type="button"
+                            onClick={handleSearchClear}
+                            className="rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 hover:border-slate-300 hover:text-slate-900"
+                            disabled={!searchTerm && !searchQuery}
+                        >
+                            Clear
+                        </button>
+                    </div>
                 </div>
             </form>
 
