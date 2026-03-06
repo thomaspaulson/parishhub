@@ -47,7 +47,7 @@
                 <section class="mt-8 grid gap-6 md:grid-cols-2">
                     <div class="space-y-4">
                         <div>
-                            <p class="text-xs uppercase tracking-wide text-slate-400">Child Name</p>
+                            <p class="text-xs uppercase tracking-wide text-slate-400">Name</p>
                             <p class="text-xl font-semibold text-slate-900">
                                 {{ $record->full_name ?? '—' }}
                             </p>
@@ -73,9 +73,9 @@
                             </p>
                         </div>
                         <div>
-                            <p class="text-xs uppercase tracking-wide text-slate-400">Parish</p>
+                            <p class="text-xs uppercase tracking-wide text-slate-400">Celebrant</p>
                             <p class="text-sm font-medium text-slate-800">
-                                {{ $record->parish ?? '—' }}
+                                {{ $record->celebrant ?? '—' }}
                             </p>
                         </div>
                     </div>
@@ -100,9 +100,9 @@
                             </p>
                         </div>
                         <div>
-                            <p class="text-xs uppercase tracking-wide text-slate-400">Celebrant</p>
+                            <p class="text-xs uppercase tracking-wide text-slate-400">Parish</p>
                             <p class="text-sm font-medium text-slate-800">
-                                {{ $record->celebrant ?? '—' }}
+                                {{ $record->parish ?? '—' }}
                             </p>
                         </div>
                     </div>
@@ -113,7 +113,6 @@
                         <p class="text-xs uppercase tracking-wide text-slate-400">Additional Notes</p>
                         <p class="mt-2 text-sm text-slate-600">
                             This certificate is generated from the official parish registry.
-                            <!-- For corrections, contact the parish office within 30 days of issuance. -->
                         </p>
                     </div>
                 </section>

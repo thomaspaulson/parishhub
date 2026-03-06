@@ -187,6 +187,13 @@ export function BirthListPage() {
                                     </td>
                                     <td className="px-4 py-4 text-right">
                                         <div className="flex justify-end gap-2">
+                                            <button
+                                                type="button"
+                                                onClick={() => window.open(`/print/${record.id}/birth`, '_blank', 'noopener')}
+                                                className="rounded-full border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-700 hover:border-slate-300 hover:text-slate-900"
+                                            >
+                                                Print
+                                            </button>
                                             <Link
                                                 to={`/admin/births/${record.id}/edit`}
                                                 className="rounded-full border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-700 hover:border-slate-300 hover:text-slate-900"
@@ -201,14 +208,6 @@ export function BirthListPage() {
                                             >
                                                 {deletingId === record.id ? 'Deleting...' : 'Delete'}
                                             </button>
-                                            <button
-                                                type="button"
-                                                onClick={() => window.open(`/print/${record.id}/birth`, '_blank', 'noopener')}
-                                                className="rounded-full border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-700 hover:border-slate-300 hover:text-slate-900"
-                                            >
-                                                Print
-                                            </button>
-
                                         </div>
                                     </td>
                                 </tr>
