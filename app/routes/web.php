@@ -9,6 +9,7 @@ Route::get('/', function () {
 });
 
 Route::get('/print/{id}/{type}', [PrintController::class, 'show']);
+Route::get('/print/{id}/{type}/pdf', [PrintController::class, 'pdf']);
 // Route::get('/print/{id}/{type}', function () {
 //     return view('print');
 // });

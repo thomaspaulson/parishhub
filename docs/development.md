@@ -17,6 +17,18 @@ docker compose run --rm \
     php artisan migrate
 ```
 
+## to rebuild
+
+docker compose down
+
+docker compose build --no-cache
+
+docker ps
+
+docker exec -it <container> bash
+
+docker compose exec php-fpm bash
+
 ## to install sanctum
 
 php artisan install:api

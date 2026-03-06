@@ -4,6 +4,10 @@ WORKDIR "/application"
 RUN apt-get update \
     && apt-get -y --no-install-recommends install \
         git \
+        curl \
+        ca-certificates \
+        nodejs \
+        npm \
         php8.5-mysql \
         php8.5-sqlite3 \
         php8.5-redis \
