@@ -8,7 +8,6 @@ export function BirthListPage() {
     const [isLoading, setIsLoading] = useState(true);
     const [errorMessage, setErrorMessage] = useState('');
     const [deletingId, setDeletingId] = useState(null);
-    const [searchTerm, setSearchTerm] = useState('');
     const [searchQuery, setSearchQuery] = useState('');
 
     const [searchFields, setSearchFields] = useState({ term: '', month: '', year: '' });
@@ -92,9 +91,9 @@ export function BirthListPage() {
     };
 
     const handleSearchClear = () => {
-        setSearchTerm('');
+        setSearchFields({ term: '', month: '', year: '' });
         setSearchQuery('');
-        loadBirths({ search: '' });
+        loadBirths({ search: '', month: '', year: '' });
     };
 
     const term = searchFields.term.trim();
@@ -191,7 +190,7 @@ export function BirthListPage() {
                             type="button"
                             onClick={handleSearchClear}
                             className="rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 hover:border-slate-300 hover:text-slate-900"
-                            disabled={!searchTerm && !searchQuery}
+                            disabled={!term && !searchQuery}
                         >
                             Clear
                         </button>

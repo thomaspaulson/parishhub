@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Services\Birth;
+namespace App\Services\Death;
 
-use App\Models\Birth;
+use App\Models\Death;
 use Carbon\Carbon;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
-class ListBirthService
+class ListDeathService
 {
     protected const SEARCHABLE_COLUMNS = [
         'full_name',
@@ -15,9 +15,9 @@ class ListBirthService
         'book_no',
     ];
 
-    public function paginate(ListBirth $dto): LengthAwarePaginator
+    public function paginate(ListDeath $dto): LengthAwarePaginator
     {
-        $query = Birth::query();
+        $query = Death::query();
 
         if ($dto->search) {
             $query->where(function ($q) use ($dto) {
@@ -30,11 +30,11 @@ class ListBirthService
         if ($dto->month && $dto->year) {
             $startDate = Carbon::create($dto->year, $dto->month, 1)->startOfMonth();
             $endDate   = Carbon::create($dto->year, $dto->month, 1)->endOfMonth();
-            $query->whereBetween('date_of_birth', [$startDate, $endDate]);
+            $query->whereBetween('date_of_death', [$startDate, $endDate]);
         }
 
         if ($dto->year && !$dto->month) {
-            $query->whereYear('date_of_birth', $dto->year);
+            $query->whereYear('date_of_death', $dto->year);
         }
 
         return $query

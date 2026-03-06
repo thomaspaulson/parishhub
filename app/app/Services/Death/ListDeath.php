@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Services\Marriage;
+namespace App\Services\Death;
 
 use Illuminate\Http\Request;
 
-class ListMarriage
+class ListDeath
 {
     public function __construct(
         public readonly ?string $search,

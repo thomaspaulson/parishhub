@@ -7,31 +7,18 @@ use App\Http\Requests\Api\StoreDeathRequest;
 use App\Http\Requests\Api\UpdateDeathRequest;
 use App\Http\Resources\DeathResource;
 use App\Models\Death;
+use App\Services\Death\ListDeath;
+use App\Services\Death\ListDeathService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class DeathController extends Controller
 {
-    public function index(Request $request): JsonResponse
+    public function index(Request $request, ListDeathService $deathService): JsonResponse
     {
-        $perPage = (int) $request->query('per_page', 15);
-        $perPage = max(1, min($perPage, 100));
-        $search = trim((string) $request->query('q', ''));
+        $dto = ListDeath::fromRequest($request);
 
-        $deaths = Death::query()
-            ->when($search !== '', function ($query) use ($search) {
-                $query->where(function ($builder) use ($search) {
-                    $builder
-                        ->where('full_name', 'like', "%{$search}%")
-                        ->orWhere('date_of_death', 'like', "%{$search}%")
-                        ->orWhere('reg_no', 'like', "%{$search}%")
-                        ->orWhere('page_no', 'like', "%{$search}%")
-                        ->orWhere('book_no', 'like', "%{$search}%");
-                });
-            })
-            ->orderByDesc('created_at')
-            ->paginate($perPage)
-            ->appends($request->query());
+        $deaths = $deathService->paginate($dto);
 
         return DeathResource::collection($deaths)->response();
     }
