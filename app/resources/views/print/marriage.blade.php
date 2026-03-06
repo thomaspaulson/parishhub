@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>{{ config('app.name', 'ParishHub') }}: Birth Record</title>
+        <title>{{ config('app.name', 'ParishHub') }}: Marriage Record</title>
 
         <link rel="preconnect" href="https://fonts.bunny.net" />
         <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
@@ -28,7 +28,7 @@
                 <header class="flex flex-wrap items-start justify-between gap-6 border-b border-slate-200 pb-6">
                     <div class="space-y-2">
                         <p class="text-xs uppercase tracking-[0.35em] text-indigo-500">Diocese of Cochin</p>
-                        <h1 class="text-3xl font-semibold">Birth Record Certificate</h1>
+                        <h1 class="text-3xl font-semibold">Marriage Record Certificate</h1>
                         <p class="text-sm text-slate-500">
                             Issued on {{ now()->format('F j, Y') }} by St.Joseph's Bethlehem Church, Chullikal.<br>
                         </p>
@@ -47,30 +47,45 @@
                 <section class="mt-8 grid gap-6 md:grid-cols-2">
                     <div class="space-y-4">
                         <div>
-                            <p class="text-xs uppercase tracking-wide text-slate-400">Name</p>
+                            <p class="text-xs uppercase tracking-wide text-slate-400">Bride</p>
                             <p class="text-xl font-semibold text-slate-900">
-                                {{ $record->full_name ?? '—' }}
+                                {{ $record->bride_full_name ?? '—' }}
                             </p>
-                        </div>
-                        <div class="grid grid-cols-2 gap-4">
-                            <div>
-                                <p class="text-xs uppercase tracking-wide text-slate-400">Date of Birth</p>
-                                <p class="text-sm font-medium text-slate-800">
-                                    {{ $record->date_of_birth ?? '—' }}
-                                </p>
-                            </div>
-                            <div>
-                                <p class="text-xs uppercase tracking-wide text-slate-400">Date of Baptism</p>
-                                <p class="text-sm font-medium text-slate-800">
-                                    {{ $record->date_of_baptism ?? '—' }}
-                                </p>
-                            </div>
                         </div>
                         <div>
-                            <p class="text-xs uppercase tracking-wide text-slate-400">Place of Baptism</p>
+                            <p class="text-xs uppercase tracking-wide text-slate-400">Bride Parents</p>
                             <p class="text-sm font-medium text-slate-800">
-                                {{ $record->place_of_baptism ?? '—' }}
+                                {{ $record->bride_parents ?? '—' }}
                             </p>
+                        </div>
+                        <div>
+                            <p class="text-xs uppercase tracking-wide text-slate-400">Groom</p>
+                            <p class="text-xl font-semibold text-slate-900">
+                                {{ $record->groom_full_name ?? '—' }}
+                            </p>
+                        </div>
+                        <div>
+                            <p class="text-xs uppercase tracking-wide text-slate-400">Groom Parents</p>
+                            <p class="text-sm font-medium text-slate-800">
+                                {{ $record->groom_parents ?? '—' }}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4 rounded-2xl border border-slate-200 bg-slate-50 p-5">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <p class="text-xs uppercase tracking-wide text-slate-400">Married On</p>
+                                <p class="text-sm font-medium text-slate-800">
+                                    {{ $record->married_on ?? '—' }}
+                                </p>
+                            </div>
+                            <div>
+                                <p class="text-xs uppercase tracking-wide text-slate-400">Recorded On</p>
+                                <p class="text-sm font-medium text-slate-800">
+                                    {{ $record->date ?? '—' }}
+                                </p>
+                            </div>
                         </div>
                         <div>
                             <p class="text-xs uppercase tracking-wide text-slate-400">Celebrant</p>
@@ -78,37 +93,16 @@
                                 {{ $record->celebrant ?? '—' }}
                             </p>
                         </div>
-                    </div>
-
-                    <div class="space-y-4 rounded-2xl border border-slate-200 bg-slate-50 p-5">
                         <div>
-                            <p class="text-xs uppercase tracking-wide text-slate-400">Father</p>
+                            <p class="text-xs uppercase tracking-wide text-slate-400">Church</p>
                             <p class="text-sm font-medium text-slate-800">
-                                {{ $record->father_name ?? '—' }}
+                                {{ $record->church ?? '—' }}
                             </p>
                         </div>
                         <div>
-                            <p class="text-xs uppercase tracking-wide text-slate-400">Mother</p>
+                            <p class="text-xs uppercase tracking-wide text-slate-400">Witnesses</p>
                             <p class="text-sm font-medium text-slate-800">
-                                {{ $record->mother_name ?? '—' }}
-                            </p>
-                        </div>
-                        <div>
-                            <p class="text-xs uppercase tracking-wide text-slate-400">God Parents</p>
-                            <p class="text-sm font-medium text-slate-800">
-                                {{ $record->god_parents ?? '—' }}
-                            </p>
-                        </div>
-                        <div>
-                            <p class="text-xs uppercase tracking-wide text-slate-400">Parish</p>
-                            <p class="text-sm font-medium text-slate-800">
-                                {{ $record->parish ?? '—' }}
-                            </p>
-                        </div>
-                        <div>
-                            <p class="text-xs uppercase tracking-wide text-slate-400">Recorded On</p>
-                            <p class="text-sm font-medium text-slate-800">
-                                {{ $record->date ?? '—' }}
+                                {{ $record->witness1 ?? '—' }}{{ $record->witness2 ? ' · ' . $record->witness2 : '' }}
                             </p>
                         </div>
                     </div>
