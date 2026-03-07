@@ -80,7 +80,7 @@ export function HomePage() {
                 </section>
             </div>
 
-            <section className="mx-auto max-w-6xl px-6 py-16">
+            {/* <section className="mx-auto max-w-6xl px-6 py-16">
                 <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
                     <div>
                         <p className="text-xs uppercase tracking-[0.3em] text-indigo-600">Features</p>
@@ -131,7 +131,8 @@ export function HomePage() {
                     </div>
                 </div>
             </section>
-
+ */}
+            {/*
             <section className="mx-auto max-w-6xl px-6 py-16">
                 <div className="grid gap-10 md:grid-cols-2 md:items-center">
                     <div className="rounded-3xl border border-slate-200 bg-white p-8">
@@ -202,6 +203,8 @@ export function HomePage() {
                     </div>
                 </div>
             </section>
+             */}
         </div>
+
     );
 }
