@@ -8,6 +8,7 @@ services:
 
     mysql:
         image: 'mysql:8.0'
+        container_name: phpdocker-mysql
         working_dir: /application
         volumes:
             - '.:/application'
@@ -22,6 +23,7 @@ services:
 
     webserver:
         image: 'nginx:alpine'
+        container_name: phpdocker-nginx
         working_dir: /application
         volumes:
             - './app:/application'
@@ -31,12 +33,25 @@ services:
 
     php-fpm:
         build: phpdocker/php-fpm
+        container_name: phpdocker-php-fpm
         user: "${UID:-1000}:${GID:-1000}"
         working_dir: /application
         volumes:
             - './app:/application'
             - './phpdocker/php-fpm/php-ini-overrides.ini:/etc/php/8.5/fpm/conf.d/99-overrides.ini'
             - './phpdocker/php-fpm/php-ini-overrides.ini:/etc/php/8.5/cli/conf.d/99-overrides.ini'
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        container_name: phpdocker-phpmyadmin
+        depends_on:
+            - mysql
+        environment:
+            PMA_HOST: mysql
+            PMA_PORT: 3306
+            MYSQL_ROOT_PASSWORD: root
+        ports:
+            - "52001:80"
 
 volumes:
     mysql_data:

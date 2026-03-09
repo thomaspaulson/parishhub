@@ -27,10 +27,13 @@
             <div class="mx-auto w-full max-w-4xl rounded-3xl bg-white p-8 shadow-xl">
                 <header class="flex flex-wrap items-start justify-between gap-6 border-b border-slate-200 pb-6">
                     <div class="space-y-2">
+                        <p class="text-sm font-semibold uppercase tracking-[0.25em] text-slate-800">
+                            St.Joseph's Bethlehem Church, Chullikal
+                        </p>
                         <p class="text-xs uppercase tracking-[0.35em] text-indigo-500">Diocese of Cochin</p>
                         <h1 class="text-3xl font-semibold">Birth Record Certificate</h1>
                         <p class="text-sm text-slate-500">
-                            Issued on {{ now()->format('F j, Y') }} by St.Joseph's Bethlehem Church, Chullikal.<br>
+                            Issued on {{ now()->format('F j, Y') }}
                         </p>
                     </div>
                     <div class="rounded-2xl border border-slate-200 bg-slate-50 px-5 py-3 text-sm">
