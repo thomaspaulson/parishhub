@@ -8,10 +8,10 @@ class MarriagePrintStrategy implements PrintStrategy
     public function generate(string $id): array
     {
         $record = Marriage::findOrFail($id);
-
+        $title = 'Marriage Record Certificate';
         return [
             'view' => 'print.marriage',
-            'data' => compact('record')
+            'data' => compact('record', 'title')
         ];
     }
 }
