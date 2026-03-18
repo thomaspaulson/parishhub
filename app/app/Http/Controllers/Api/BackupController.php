@@ -90,14 +90,14 @@ class BackupController extends Controller
 
         $zip->addFile($sqlPath, 'database.sql');
 
-        $this->addPathToZip(base_path('app'), $zip, 'app');
-        $this->addPathToZip(base_path('bootstrap'), $zip, 'bootstrap');
-        $this->addPathToZip(base_path('config'), $zip, 'config');
-        $this->addPathToZip(base_path('database/migrations'), $zip, 'database/migrations');
-        $this->addPathToZip(base_path('public'), $zip, 'public');
-        $this->addPathToZip(base_path('resources'), $zip, 'resources');
-        $this->addPathToZip(base_path('routes'), $zip, 'routes');
-        $this->addPathToZip(storage_path('app/public'), $zip, 'storage/app/public');
+        // $this->addPathToZip(base_path('app'), $zip, 'app');
+        // $this->addPathToZip(base_path('bootstrap'), $zip, 'bootstrap');
+        // $this->addPathToZip(base_path('config'), $zip, 'config');
+        // $this->addPathToZip(base_path('database/migrations'), $zip, 'database/migrations');
+        // $this->addPathToZip(base_path('public'), $zip, 'public');
+        // $this->addPathToZip(base_path('resources'), $zip, 'resources');
+        // $this->addPathToZip(base_path('routes'), $zip, 'routes');
+        // $this->addPathToZip(storage_path('app/public'), $zip, 'storage/app/public');
 
         // if (file_exists(base_path('.env'))) {
         //     $zip->addFile(base_path('.env'), '.env');
