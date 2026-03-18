@@ -4,6 +4,7 @@ namespace App\Services\Marriage;
 
 use App\Models\Marriage;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class ListMarriageService
@@ -17,6 +18,19 @@ class ListMarriageService
     ];
 
     public function paginate(ListMarriage $dto): LengthAwarePaginator
+    {
+        return $this->buildQuery($dto)
+            ->latest()
+            ->paginate($dto->perPage)
+            ->appends([
+                'q' => $dto->search,
+                'month' => $dto->month,
+                'year' => $dto->year,
+                'per_page' => $dto->perPage,
+            ]);
+    }
+
+    public function buildQuery(ListMarriage $dto): Builder
     {
         $query = Marriage::query();
 
@@ -38,14 +52,6 @@ class ListMarriageService
             $query->whereYear('date', $dto->year);
         }
 
-        return $query
-            ->latest()
-            ->paginate($dto->perPage)
-            ->appends([
-                'q' => $dto->search,
-                'month' => $dto->month,
-                'year' => $dto->year,
-                'per_page' => $dto->perPage,
-            ]);
+        return $query;
     }
 }

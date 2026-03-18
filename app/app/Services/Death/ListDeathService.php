@@ -4,6 +4,7 @@ namespace App\Services\Death;
 
 use App\Models\Death;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class ListDeathService
@@ -16,6 +17,19 @@ class ListDeathService
     ];
 
     public function paginate(ListDeath $dto): LengthAwarePaginator
+    {
+        return $this->buildQuery($dto)
+            ->latest()
+            ->paginate($dto->perPage)
+            ->appends([
+                'q' => $dto->search,
+                'month' => $dto->month,
+                'year' => $dto->year,
+                'per_page' => $dto->perPage,
+            ]);
+    }
+
+    public function buildQuery(ListDeath $dto): Builder
     {
         $query = Death::query();
 
@@ -37,14 +51,6 @@ class ListDeathService
             $query->whereYear('date_of_death', $dto->year);
         }
 
-        return $query
-            ->latest()
-            ->paginate($dto->perPage)
-            ->appends([
-                'q' => $dto->search,
-                'month' => $dto->month,
-                'year' => $dto->year,
-                'per_page' => $dto->perPage,
-            ]);
+        return $query;
     }
 }

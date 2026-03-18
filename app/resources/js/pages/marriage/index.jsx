@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../../api/axios';
 
@@ -7,8 +7,12 @@ export function MarriageListPage() {
     const [meta, setMeta] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [errorMessage, setErrorMessage] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
     const [deletingId, setDeletingId] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
+    const [isImporting, setIsImporting] = useState(false);
+    const [isExporting, setIsExporting] = useState(false);
+    const fileInputRef = useRef(null);
 
     const [searchFields, setSearchFields] = useState({ term: '', month: '', year: '' });
     const [clearForm, setClearForm] = useState(false);
@@ -16,6 +20,7 @@ export function MarriageListPage() {
     const loadMarriages = useCallback(async ({ url, search = searchQuery, month, year } = {}) => {
         setIsLoading(true);
         setErrorMessage('');
+        setSuccessMessage('');
         try {
             const requestUrl = url ?? (() => {
                 const params = new URLSearchParams({ per_page: '15' });
@@ -67,6 +72,7 @@ export function MarriageListPage() {
         try {
             const response = await api.delete(`/api/marriages/${recordId}`);
             await loadMarriages();
+            setSuccessMessage('Marriage record deleted successfully.');
         } catch (error) {
             setErrorMessage(error instanceof Error ? error.message : 'Unexpected error.');
         } finally {
@@ -86,6 +92,7 @@ export function MarriageListPage() {
         event.preventDefault();
         const trimmed = searchFields.term.trim();
         setSearchQuery(trimmed);
+        setSuccessMessage('');
 
         const month = searchFields.month;
         const year = searchFields.year;
@@ -95,8 +102,94 @@ export function MarriageListPage() {
     const handleSearchClear = () => {
         setSearchFields({ term: '', month: '', year: '' });
         setSearchQuery('');
+        setSuccessMessage('');
         loadMarriages({ search: '', month: '', year: '' });
         setClearForm(false);
+    };
+
+    const handleExportCsv = async () => {
+        setIsExporting(true);
+        setErrorMessage('');
+        setSuccessMessage('');
+
+        try {
+            const params = new URLSearchParams();
+            const currentSearch = searchQuery.trim();
+
+            if (currentSearch) {
+                params.set('q', currentSearch);
+            }
+
+            if (searchFields.month) {
+                params.set('month', searchFields.month);
+            }
+
+            if (searchFields.year) {
+                params.set('year', searchFields.year);
+            }
+
+            const exportUrl = `/api/marriages/export-csv${params.toString() ? `?${params.toString()}` : ''}`;
+
+            const response = await api.get(exportUrl, {
+                responseType: 'blob',
+            });
+
+            const blob = new Blob([response.data], { type: 'text/csv;charset=utf-8;' });
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            const contentDisposition = response.headers?.['content-disposition'] ?? '';
+            const filenameMatch = contentDisposition.match(/filename="?([^\"]+)"?/i);
+            const filename = filenameMatch?.[1] || `marriages-${new Date().toISOString().slice(0, 10)}.csv`;
+
+            link.href = url;
+            link.setAttribute('download', filename);
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            window.URL.revokeObjectURL(url);
+            setSuccessMessage('Marriage records exported successfully.');
+        } catch (error) {
+            setErrorMessage(error instanceof Error ? error.message : 'Unable to export CSV.');
+        } finally {
+            setIsExporting(false);
+        }
+    };
+
+    const handleImportClick = () => {
+        fileInputRef.current?.click();
+    };
+
+    const handleImportCsv = async (event) => {
+        const file = event.target.files?.[0];
+
+        if (!file) {
+            return;
+        }
+
+        setIsImporting(true);
+        setErrorMessage('');
+        setSuccessMessage('');
+
+        try {
+            const formData = new FormData();
+            formData.append('file', file);
+
+            const response = await api.post('/api/marriages/import-csv', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+
+            const created = response.data?.created ?? 0;
+            const failed = response.data?.failed ?? 0;
+            setSuccessMessage(`Import completed. Created: ${created}. Failed: ${failed}.`);
+            await loadMarriages();
+        } catch (error) {
+            setErrorMessage(error instanceof Error ? error.message : 'Unable to import CSV.');
+        } finally {
+            event.target.value = '';
+            setIsImporting(false);
+        }
     };
 
     const term = searchFields.term.trim();
@@ -119,6 +212,29 @@ export function MarriageListPage() {
                 </header>
 
                 <div className="flex flex-wrap items-center gap-2">
+                    <input
+                        ref={fileInputRef}
+                        type="file"
+                        accept=".csv,text/csv"
+                        className="hidden"
+                        onChange={handleImportCsv}
+                    />
+                    <button
+                        type="button"
+                        onClick={handleImportClick}
+                        className="rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 hover:border-slate-300 hover:text-slate-900"
+                        disabled={isImporting}
+                    >
+                        {isImporting ? 'Importing...' : 'Import CSV'}
+                    </button>
+                    <button
+                        type="button"
+                        onClick={handleExportCsv}
+                        className="rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 hover:border-slate-300 hover:text-slate-900"
+                        disabled={isExporting}
+                    >
+                        {isExporting ? 'Exporting...' : 'Export CSV'}
+                    </button>
                     <Link
                         to="/admin/marriages/create"
                         className="rounded-full bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-500"
@@ -162,7 +278,7 @@ export function MarriageListPage() {
                                     'January', 'February', 'March', 'April', 'May', 'June',
                                     'July', 'August', 'September', 'October', 'November', 'December',
                                 ].map((label, index) => (
-                                    <option key={label} value={`${index + 1}`} selected={month === `${index + 1}`}>
+                                    <option key={label} value={`${index + 1}`}>
                                         {label}
                                     </option>
                                 ))}
@@ -204,6 +320,12 @@ export function MarriageListPage() {
             {errorMessage && (
                 <div className="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">
                     {errorMessage}
+                </div>
+            )}
+
+            {successMessage && (
+                <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
+                    {successMessage}
                 </div>
             )}
 
