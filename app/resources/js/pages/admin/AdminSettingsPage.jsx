@@ -87,7 +87,7 @@ export function AdminSettingsPage() {
                                 type="button"
                                 onClick={() => downloadTemplate('birth', '/api/births/download-csv', 'births-template.csv')}
                                 disabled={downloadingType !== ''}
-                                className="inline-flex items-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-70"
+                                className="inline-flex items-center rounded-lg bg-slate-700 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-300 disabled:cursor-not-allowed disabled:opacity-70"
                             >
                                 {downloadingType === 'birth' ? 'Downloading...' : 'Download Birth Template file'}
                             </button>
@@ -95,7 +95,7 @@ export function AdminSettingsPage() {
                                 type="button"
                                 onClick={() => downloadTemplate('death', '/api/deaths/download-csv', 'deaths-template.csv')}
                                 disabled={downloadingType !== ''}
-                                className="inline-flex items-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-70"
+                                className="inline-flex items-center rounded-lg bg-slate-700 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-300 disabled:cursor-not-allowed disabled:opacity-70"
                             >
                                 {downloadingType === 'death' ? 'Downloading...' : 'Download Death Template file'}
                             </button>
@@ -103,7 +103,7 @@ export function AdminSettingsPage() {
                                 type="button"
                                 onClick={() => downloadTemplate('marriage', '/api/marriages/download-csv', 'marriages-template.csv')}
                                 disabled={downloadingType !== ''}
-                                className="inline-flex items-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-70"
+                                className="inline-flex items-center rounded-lg bg-slate-700 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-300 disabled:cursor-not-allowed disabled:opacity-70"
                             >
                                 {downloadingType === 'marriage' ? 'Downloading...' : 'Download Marriage Template file'}
                             </button>
@@ -118,7 +118,7 @@ export function AdminSettingsPage() {
                             type="button"
                             onClick={downloadBackup}
                             disabled={downloadingType !== ''}
-                            className="mt-4 inline-flex items-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-70"
+                            className="mt-4 inline-flex items-center rounded-lg bg-slate-700 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-300 disabled:cursor-not-allowed disabled:opacity-70"
                         >
                             {downloadingType === 'backup' ? 'Downloading...' : 'Download Backup'}
                         </button>
