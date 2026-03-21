@@ -25,8 +25,8 @@ class StoreMarriageRequest extends FormRequest
             'witness1' => ['nullable', 'string', 'max:100'],
             'witness2' => ['nullable', 'string', 'max:100'],
             'reg_no' => ['required', 'string', 'max:20'],
-            'page_no' => ['nullable', 'string', 'max:20'],
-            'book_no' => ['nullable', 'string', 'max:20'],
+            'page_no' => ['required', 'string', 'max:20'],
+            'book_no' => ['required', 'string', 'max:20'],
         ];
     }
 }

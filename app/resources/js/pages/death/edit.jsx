@@ -324,6 +324,7 @@ export function DeathEditPage() {
                                 <label className="block text-sm text-slate-600">
                                     <span className="flex items-center gap-1 text-xs font-semibold uppercase tracking-wide text-slate-500">
                                         Page No
+                                        <span className="text-rose-500">*</span>
                                     </span>
                                     <input
                                         type="text"
@@ -332,6 +333,7 @@ export function DeathEditPage() {
                                         onChange={handleChange}
                                         className="mt-2 w-full rounded-2xl border border-slate-200 px-4 py-2 text-sm text-slate-900 focus:border-indigo-500 focus:outline-none"
                                         placeholder="Page No"
+                                        required={true}
                                     />
                                     {formErrors['page_no'] && (
                                         <span className="mt-1 block text-xs text-rose-500">
@@ -342,6 +344,7 @@ export function DeathEditPage() {
                                 <label className="block text-sm text-slate-600">
                                     <span className="flex items-center gap-1 text-xs font-semibold uppercase tracking-wide text-slate-500">
                                         Book No
+                                        <span className="text-rose-500">*</span>
                                     </span>
                                     <input
                                         type="text"
@@ -350,6 +353,7 @@ export function DeathEditPage() {
                                         onChange={handleChange}
                                         className="mt-2 w-full rounded-2xl border border-slate-200 px-4 py-2 text-sm text-slate-900 focus:border-indigo-500 focus:outline-none"
                                         placeholder="Book No"
+                                        required={true}
                                     />
                                     {formErrors['book_no'] && (
                                         <span className="mt-1 block text-xs text-rose-500">

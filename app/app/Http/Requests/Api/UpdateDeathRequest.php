@@ -24,8 +24,8 @@ class UpdateDeathRequest extends FormRequest
             'place_of_burial' => ['required', 'string', 'max:255'],
             'date_of_burial' => ['required', 'date', 'date_format:Y-m-d'],
             'reg_no' => ['required',  'string', 'max:20'],
-            'page_no' => ['nullable', 'string', 'max:20'],
-            'book_no' => ['nullable', 'string', 'max:20'],
+            'page_no' => ['required', 'string', 'max:20'],
+            'book_no' => ['required', 'string', 'max:20'],
         ];
     }
 }
