@@ -140,6 +140,21 @@ class BirthController extends Controller
             $handle = fopen('php://output', 'wb');
 
             fputcsv($handle, self::CSV_HEADERS);
+            fputcsv($handle, [
+                '2026-03-21',
+                'Baby John',
+                'Thomas Joseph',
+                'Mary Thomas',
+                '2026-03-10',
+                '2026-03-21',
+                'St. Mary Church',
+                'Fr. Paul',
+                'Antony & Teresa',
+                'St. Mary Parish',
+                'B-001',
+                '15',
+                '2',
+            ]);
 
             fclose($handle);
         }, $filename, [

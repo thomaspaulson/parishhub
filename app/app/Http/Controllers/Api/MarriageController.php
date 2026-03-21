@@ -139,6 +139,21 @@ class MarriageController extends Controller
             $handle = fopen('php://output', 'wb');
 
             fputcsv($handle, self::CSV_HEADERS);
+            fputcsv($handle, [
+                '2026-03-21',
+                'Anna Maria',
+                'Joseph & Elsy',
+                'Thomas John',
+                'Varghese & Lissy',
+                'Fr. Mathew',
+                'St. Joseph Church',
+                '2026-03-21',
+                'Peter',
+                'Sophia',
+                'M-001',
+                '8',
+                '1',
+            ]);
 
             fclose($handle);
         }, $filename, [

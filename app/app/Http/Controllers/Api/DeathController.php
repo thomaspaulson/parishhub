@@ -132,6 +132,20 @@ class DeathController extends Controller
             $handle = fopen('php://output', 'wb');
 
             fputcsv($handle, self::CSV_HEADERS);
+            fputcsv($handle, [
+                '2026-03-21',
+                'John Doe',
+                'Mathew Doe',
+                'St. Thomas Street, Kochi',
+                'Mary Doe',
+                '2026-03-18',
+                'Natural causes',
+                'St. Mary Cemetery',
+                '2026-03-19',
+                'D-001',
+                '12',
+                '3',
+            ]);
 
             fclose($handle);
         }, $filename, [
